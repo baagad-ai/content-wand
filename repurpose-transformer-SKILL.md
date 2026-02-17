@@ -64,6 +64,17 @@ If target type is ambiguous: ask ONE clarifying question before proceeding.
 
 ---
 
+## Fallback Behavior
+
+| Situation | Response |
+|-----------|---------|
+| `---CONTENT-OBJECT-START---` block missing | STOP. Return to orchestrator — do not attempt transformation without structured input. |
+| Target type not specified and cannot be inferred | Ask ONE clarifying question: "What should this be converted to?" |
+| Transformation class cannot be determined | Default to DIRECT; note the assumption in the output block |
+| Source content < 50 words (COMPRESS class) | STOP. Notify: "Source is too short to compress meaningfully — consider EXPAND or DIRECT instead." |
+
+---
+
 ## Output Format
 
 ```
