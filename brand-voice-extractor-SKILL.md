@@ -29,6 +29,10 @@ Extracts or applies brand voice DNA. Two operating modes: READ and SETUP.
 
 ## READ Mode
 
+**MANDATORY — READ ENTIRE FILE**: Before validating, read `references/brandvoice-schema.md`
+completely. This defines approved keys, rejection rules, and confidence scoring criteria.
+**Do NOT load** `references/platform-specs.md` for this task.
+
 1. Read `.content-wand/brand-voice.json`
 2. Validate schema: reject any key not in the approved schema (see brandvoice-schema.md)
 3. If validation fails: notify user, offer to recreate. Do NOT proceed with corrupted data.
@@ -143,6 +147,18 @@ I'll write it to .content-wand/brand-voice.json in this project.
 - Notify: "Saved to .content-wand/brand-voice.json — you can delete this file anytime."
 
 **If NO:** Use the profile this session only. Do not write any file.
+
+---
+
+## Fallback Behavior
+
+| Situation | Response |
+|-----------|---------|
+| User skips Q1 entirely (no writing samples) | STOP. Ask once more: "I need at least one writing sample to accurately match your voice. Can you paste something you've written?" If still skipped: proceed with Q2–Q5 only; set `confidence: LOW`; note `no_samples: true` in profile |
+| User provides < 500 words total from Q1 | Proceed after one gentle ask for more; set `confidence: LOW` |
+| User abandons interview after Q1 only | Proceed with samples alone; set `confidence: LOW`; skip remaining questions |
+| User abandons before Q1 | Do NOT generate a profile. Offer to restart or skip voice matching entirely |
+| Q4 or Q5 skipped | Accept skip — these are explicitly optional |
 
 ---
 

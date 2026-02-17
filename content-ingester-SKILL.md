@@ -17,13 +17,13 @@ Ingests any content signal and returns a structured ContentObject. That is the e
 
 Classify the input before processing:
 
-| Input Type | Signals | Action |
-|-----------|---------|--------|
-| `paste` | Plain text provided directly | Use as-is |
-| `url` | Starts with http/https | Fetch via WebFetch tool |
-| `transcript` | Contains timestamps, speaker labels, or "[inaudible]" | Use as-is; note it's a transcript |
-| `notes` | Bullet points, fragments, incomplete sentences | Use as-is; note it's rough notes |
-| `topic` | No content, just a subject/question | Run WebSearch (3–5 queries); assemble findings |
+| Input Type | Signals | Action | Downstream Note |
+|-----------|---------|--------|------------------|
+| `paste` | Plain text provided directly | Use as-is | Source-faithful — platform-writer must not add ideas |
+| `url` | Starts with http/https | Fetch via WebFetch tool | Strip nav/ads/footers — main body only |
+| `transcript` | Contains timestamps, speaker labels, or "[inaudible]" | Use as-is; note it's a transcript | Non-linear source — key_themes extraction may require re-ordering |
+| `notes` | Bullet points, fragments, incomplete sentences | Use as-is; note it's rough notes | Intentionally incomplete — do NOT fill gaps |
+| `topic` | No content, just a subject/question | Run WebSearch (3–5 queries); assemble findings | Synthesized, not source-faithful — mark key_themes as research-derived |
 
 ---
 
@@ -88,3 +88,6 @@ The next sub-skill handles transformation.
 | URL is behind login | Output block with `fetch_status: login-required`; add to warnings |
 | Topic search returns irrelevant results | Proceed with what was found; add `low-confidence-research` to warnings |
 | Input is empty | Do NOT proceed. Ask user: "What content should I work with?" |
+| URL fetch times out | Output block with `fetch_status: timeout`; add to warnings; ask user to paste content directly |
+| URL returns 5xx error | Output block with `fetch_status: server-error`; add to warnings; ask user to try again or paste |
+| URL returns 429 (rate limited) | Wait 10 seconds; retry once. If still 429: `fetch_status: rate-limited`; ask user to paste |

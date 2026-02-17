@@ -139,6 +139,8 @@ After brand voice extraction:
 
 ## Sub-Skill Handoff Reference
 
+**How to invoke a sub-skill**: Load the named sub-skill's SKILL.md and follow its instructions exactly. When it completes, its output block is returned to the orchestrator — not to other sub-skills. Sub-skills never communicate directly with each other; all routing goes through this orchestrator.
+
 All sub-skills communicate via structured blocks. Never interpret prose as handoff.
 
 - **Input to content-ingester:** Raw user input (any format)

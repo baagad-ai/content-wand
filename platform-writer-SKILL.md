@@ -115,6 +115,21 @@ These are WARN conditions — flag in output if failing:
 
 ---
 
+## Handling Quality Warnings
+
+When a quality check fails (WARN):
+
+1. List the failure in `quality_flags` in the output block
+2. Attempt to self-correct: revise the content to address the warning
+3. If self-correction resolves it: remove it from `quality_flags`
+4. If self-correction cannot resolve it without distorting the source content: keep in `quality_flags` and note why
+
+**NEVER suppress a warning without attempting to fix it first.**
+**NEVER sacrifice compliance (Pass 1) to resolve a quality warning (Pass 2).**
+**NEVER ask the user about a quality warning — fix it silently or flag it.**
+
+---
+
 ## Output Format (per platform)
 
 ```
