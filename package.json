@@ -1,0 +1,39 @@
+{
+  "name": "content-wand",
+  "version": "1.0.0",
+  "description": "Turn any content into 6 platform-native formats or transform between content types — with optional brand voice matching. Works on text, URLs, transcripts, rough notes, or just a topic idea.",
+  "type": "skill",
+  "author": "Prajwal Mishra",
+  "license": "MIT",
+  "keywords": [
+    "ai",
+    "content-repurposing",
+    "content-atomization",
+    "brand-voice",
+    "twitter-thread",
+    "linkedin-post",
+    "newsletter",
+    "instagram-carousel",
+    "youtube-shorts",
+    "podcast",
+    "content-transformation",
+    "solopreneur",
+    "creator",
+    "claude-skill"
+  ],
+  "homepage": "https://github.com/baagad-ai/content-wand",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baagad-ai/content-wand.git"
+  },
+  "bugs": {
+    "url": "https://github.com/baagad-ai/content-wand/issues"
+  },
+  "skills": {
+    "content-wand": {
+      "name": "content-wand",
+      "description": "Turn any content into platform-native formats or transform between content types. Atomize (1 piece → 6 platforms) or repurpose (type A → type B). Optional brand voice matching. Works with text, URLs, transcripts, notes, or a topic idea.",
+      "version": "1.0.0"
+    }
+  }
+}
