@@ -78,6 +78,13 @@ Show all generated content inline (preview).
 Save each format to `content-output/YYYY-MM-DD-[slug]/[platform].md`.
 Emit: "Files saved to content-output/[date]-[slug]/"
 
+**If platform-writer returns `compliance: fail` for any platform:**
+Surface the failure immediately — do NOT save that output:
+```
+[Platform] output failed compliance — [list failures].
+Want me to fix and regenerate? → Yes / Skip this platform
+```
+
 ---
 
 ## STEP 6 — Offer Brand Voice (AFTER output, never before)
@@ -103,6 +110,16 @@ After brand voice extraction:
 - Invoke `platform-writer` again with the `---VOICE-PROFILE---` block
 - Deliver voice-matched versions
 - Offer to save: "Save this voice profile so I remember it next time? → Yes / No"
+
+---
+
+## NEVER
+
+- NEVER ask for brand voice before delivering the first output — voice is always step 6, never step 1
+- NEVER ask more than 2 questions to clarify the request — disambiguate mode, pick platforms, then generate
+- NEVER invoke platform-writer with a missing CONTENT-OBJECT — return to Step 3
+- NEVER invoke repurpose-transformer and platform-writer in parallel — transformer output feeds writer input
+- NEVER save files to content-output/ if compliance: fail — surface the failure to the user first
 
 ---
 

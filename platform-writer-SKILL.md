@@ -29,7 +29,10 @@ If any input is missing: STOP. Do not attempt generation. Return to orchestrator
 For each selected platform:
 
 1. Emit: "Writing [platform name]..."
-2. Load the platform's hard constraints from `references/platform-specs.md`
+2. **MANDATORY — READ ENTIRE FILE**: Before generating any platform output, read
+   `references/platform-specs.md` completely from start to finish. This file contains
+   2026-current algorithm weights and character limits not in training data.
+   **Do NOT load** `references/brandvoice-schema.md` for this task.
 3. Generate content applying the ContentObject + voice profile (if provided)
 4. Run compliance check (Pass 1)
 5. Run quality check (Pass 2)
