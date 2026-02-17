@@ -9,6 +9,8 @@ description: "Use when transforming content between formats or platforms. Handle
 
 content-wand transforms any content into platform-native formats or converts between content types. It has two modes and optional brand voice matching.
 
+**Architecture (hub-spoke orchestrator):** This file routes only — it contains strategy and sequencing. All execution lives in named sub-skills. Read this file completely before loading any sub-skill. Sub-skills are loaded one at a time, at their invocation point, and never communicate directly with each other.
+
 **Core principle:** Generate immediately. Never gate output behind setup. Brand voice is an optional enhancement offered after the first output.
 
 ---
@@ -46,6 +48,33 @@ Which formats do you want?
 ```
 
 **If REPURPOSE:** If target type is not clear from the request, ask what they want it converted to. Otherwise, proceed directly.
+
+---
+
+## Content Strategy Check
+
+Before ingesting, assess platform-content fit. These are non-obvious strategy calls:
+
+**Platform combination leverage** (matters when user picks multiple):
+| Combination | Assessment |
+|-------------|-----------|
+| Twitter + newsletter | High leverage — different consumption contexts (snackable vs. deep) |
+| Twitter + LinkedIn | High redundancy — same professional audience, similar tone; lower value |
+| LinkedIn + Instagram carousel | Complementary — same idea, different format depth |
+| All 6 platforms | Quality risk — warn user: "Generating all 6 at once dilutes quality. Recommend 2–3. Want to narrow it down?" |
+
+**Source-to-platform fit:**
+| Source type | Strong fit | Poor fit |
+|-------------|-----------|----------|
+| Tactical how-to / framework | Twitter thread, Instagram carousel | Podcast talking points |
+| Personal story / experience | LinkedIn, newsletter | Instagram carousel |
+| Data, research, findings | Twitter thread, newsletter | YouTube Shorts |
+| Conversational, interview | Podcast talking points, YouTube Shorts | LinkedIn |
+| Opinion / hot take | Twitter thread, LinkedIn | Email newsletter |
+
+If there's a mismatch between source type and selected platforms, note it — don't silently produce weak output.
+
+**Content viability:** If the source has no clear point of view, no concrete takeaway, and no memorable insight, the output will reflect that regardless of platform. Say so before generating: "This source is light on original ideas — the output will reflect that. Want to add more substance first?"
 
 ---
 
