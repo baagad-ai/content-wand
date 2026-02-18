@@ -42,13 +42,6 @@ or harmful.
 This Code of Conduct applies within all community spaces, and also applies when
 an individual is officially representing the community in public spaces.
 
-## Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-baagad.ai@gmail.com. All complaints will be reviewed and investigated promptly
-and fairly.
-
 ## Attribution
 
 This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org),
