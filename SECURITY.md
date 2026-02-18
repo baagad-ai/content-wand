@@ -10,7 +10,7 @@
 
 **Do not open a public GitHub issue for security vulnerabilities.**
 
-Email: [prajwal@baagad.ai](mailto:prajwal@baagad.ai)
+Email: [baagad.ai@gmail.com](mailto:baagad.ai@gmail.com)
 
 Include:
 - Description of the vulnerability

@@ -14,5 +14,5 @@ Check the [README](./README.md) — most questions about installation, usage, an
 
 ## Direct contact
 
-For security issues: prajwal@baagad.ai (see [SECURITY.md](./SECURITY.md))
+For security issues: baagad.ai@gmail.com (see [SECURITY.md](./SECURITY.md))
 For everything else: [@baagad_ai on X](https://x.com/baagad_ai)
