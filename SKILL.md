@@ -152,6 +152,20 @@ Pass: `---CONTENT-OBJECT---` block + selected platforms + `VOICE-PROFILE: none`.
 Pass: `---CONTENT-OBJECT---` block + target type + `VOICE-PROFILE: none`.
 Then invoke `platform-writer` IF user also wants specific platform formats.
 
+**BOTH path** (type-conversion AND platform formats requested):
+Step A — Invoke `repurpose-transformer` with: `---CONTENT-OBJECT---` block + type-conversion target + `VOICE-PROFILE: none`. Receive `---TRANSFORMED-CONTENT---` block.
+Step B — Separately invoke `platform-writer` with: original `---CONTENT-OBJECT---` block (NOT the transformed content) + platform targets + `VOICE-PROFILE: none`. Receive `---PLATFORM-OUTPUT---` blocks.
+Step C — Deliver both outputs in STEP 5, clearly labeled:
+```
+── Repurposed as [target type] ──
+[transformed content]
+
+── Platform formats ──
+[platform outputs]
+```
+Save repurposed output to `content-output/YYYY-MM-DD-[slug]/[target-type].md`; platform outputs to `content-output/YYYY-MM-DD-[slug]/[platform].md` as normal.
+Do NOT pipeline repurpose-transformer output into platform-writer — these are independent outputs from the same source.
+
 ---
 
 ## STEP 5 — Deliver First Output
@@ -222,12 +236,17 @@ After voice-matched delivery: if VOICE-PROFILE block contains `staleness_flag: t
 offer "Your voice profile is [months_old] months old. Want to refresh it?
 (Takes ~3 min — just add some recent writing samples) → Yes, refresh | No, this is fine"
 If YES: re-invoke brand-voice-extractor SETUP mode with instruction to focus on
-recent samples only. Merge and save updated profile.
+recent samples only. **Merge strategy:** New Q1 samples take full priority —
+recalculate all tone_axes and sentence_style from the merged sample pool (old +
+new). Preserve aspirational_notes and taboo_patterns from the existing profile
+unless the user explicitly provides replacements in the new session.
+Update updated_at to today's date. Save merged profile.
 
 **If no saved profile:**
 ```
 Want these to sound more like you?
-I can learn your voice in 2 minutes — and remember it for every future use.
+I can learn your voice in ~5 minutes — and remember it for every future use.
+The more you share, the better the match.
 
 → Yes, set up my voice
 → No thanks, this is fine

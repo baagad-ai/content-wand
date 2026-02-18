@@ -9,12 +9,13 @@
 
 ```json
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "created_at": "ISO-8601 date",
   "updated_at": "ISO-8601 date",
   "confidence": "HIGH | MED | LOW",
   "sample_word_count": 0,
   "conflict_flag": false,
+  "base_derived_from": "platform name or null (set when platform variance > 0.4)",
   "tone_axes": {
     "formal_casual": 0.5,
     "serious_playful": 0.5,
@@ -32,6 +33,9 @@
     "newsletter": "brief note or null",
     "instagram": "brief note or null",
     "youtube-shorts": "brief note or null",
+    "tiktok": "brief note or null",
+    "threads": "brief note or null",
+    "bluesky": "brief note or null",
     "podcast": "brief note or null"
   },
   "aspirational_notes": "string or null"
@@ -106,7 +110,8 @@ On rejection: notify user and offer to recreate. Do not attempt to repair the fi
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| `"1.0"` | Current | Original schema — all keys as defined above |
+| `"1.1"` | Current | Added `base_derived_from`; expanded `platform_variants` to 9 platforms (tiktok, threads, bluesky) |
+| `"1.0"` | Migrate | Original schema — migrate by adding missing optional keys with null defaults |
 
 ### Migration Rules
 
