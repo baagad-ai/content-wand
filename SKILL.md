@@ -1,6 +1,6 @@
 ---
 name: content-wand
-description: "Use when transforming content between formats or platforms. Handles: atomizing long-form content into Twitter/X threads, LinkedIn posts, newsletters, Instagram carousel scripts, YouTube Shorts scripts, podcast talking points; repurposing content between types (podcast→blog, thread→article, notes→newsletter). Works from text, URLs, transcripts, rough notes, or a topic idea."
+description: "Transforms content between formats and platforms. Use when user says 'turn this into', 'repurpose this as', 'make this a', 'atomize this', or 'reformat for'. Creates Twitter/X threads, LinkedIn posts, email newsletters, Instagram carousels, YouTube Shorts scripts, TikTok scripts, Threads posts, Bluesky posts, podcast talking points from any source (pasted text, URL, transcript, rough notes, or topic idea). Also converts between content types: podcast→blog, thread→article, notes→newsletter, case study→template. Includes optional brand voice matching that learns writing style from samples and remembers it across sessions. Trigger keywords: repurpose, atomize, reformat, content repurposing, thread, carousel, newsletter, shorts script, brand voice, LinkedIn post, Twitter thread, TikTok script, content transformation, turn this into."
 ---
 
 # content-wand
@@ -9,7 +9,11 @@ description: "Use when transforming content between formats or platforms. Handle
 
 content-wand transforms any content into platform-native formats or converts between content types. It has two modes and optional brand voice matching.
 
-**Architecture (hub-spoke orchestrator):** This file routes only — it contains strategy and sequencing. All execution lives in named sub-skills. Read this file completely before loading any sub-skill. Sub-skills are loaded one at a time, at their invocation point, and never communicate directly with each other.
+**Architecture (hub-spoke orchestrator):** This file is a routing document. It classifies the request, makes strategy decisions, and sequences sub-skill invocations. It does NOT generate content directly. Every content decision lives in a named sub-skill. Read this file completely before loading any sub-skill.
+
+**Decision sequence:** Classify request → Select platforms → Assess strategy fit → Check reference freshness → Ingest content → Generate → Deliver → Offer voice enhancement
+
+**Sub-skills are stateless.** Each sub-skill receives its full input in the handoff block and returns its full output in a structured block. Sub-skills do not share state. They do not communicate with each other. All routing flows through this orchestrator.
 
 **Core principle:** Generate immediately. Never gate output behind setup. Brand voice is an optional enhancement offered after the first output.
 
@@ -29,7 +33,7 @@ Before anything else, identify the mode:
 | Input is already a tweet thread + user wants "a blog post" | **REPURPOSE** | Thread → long-form |
 | Ambiguous: could be either | Ask ONE question: "Transform to multiple platforms, or convert to a different content type?" |
 
-**Platform names = ATOMIZE trigger:** Twitter, X, LinkedIn, newsletter, Instagram, carousel, YouTube Shorts, podcast, talking points
+**Platform names = ATOMIZE trigger:** Twitter, X, LinkedIn, newsletter, Instagram, carousel, YouTube Shorts, TikTok, Threads, Bluesky, podcast, talking points
 
 ---
 
@@ -43,6 +47,9 @@ Which formats do you want?
 → Email newsletter
 → Instagram carousel script
 → YouTube Shorts script
+→ TikTok script
+→ Threads post
+→ Bluesky post
 → Podcast talking points
 → All of the above
 ```
@@ -62,6 +69,9 @@ Before ingesting, assess platform-content fit. These are non-obvious strategy ca
 | Twitter + LinkedIn | High redundancy — same professional audience, similar tone; lower value |
 | LinkedIn + Instagram carousel | Complementary — same idea, different format depth |
 | All 6 platforms | Quality risk — warn user: "Generating all 6 at once dilutes quality. Recommend 2–3. Want to narrow it down?" |
+| Twitter + TikTok | High leverage — same short-form muscle, different audiences (professional vs. general interest) |
+| LinkedIn + Threads | Redundancy risk — overlapping professional tone; only worth doing if voice differs significantly between them |
+| Bluesky + newsletter | Complementary — Bluesky is link-positive, driving newsletter signups naturally |
 
 **Source-to-platform fit:**
 | Source type | Strong fit | Poor fit |
@@ -71,10 +81,23 @@ Before ingesting, assess platform-content fit. These are non-obvious strategy ca
 | Data, research, findings | Twitter thread, newsletter | YouTube Shorts |
 | Conversational, interview | Podcast talking points, YouTube Shorts | LinkedIn |
 | Opinion / hot take | Twitter thread, LinkedIn | Email newsletter |
+| Short-form opinion / hot take | Twitter thread, TikTok, Threads | Podcast talking points |
+| Community/conversation starter | Threads, Bluesky | YouTube Shorts |
+| Visual/educational how-to | TikTok, Instagram carousel | Bluesky |
 
 If there's a mismatch between source type and selected platforms, note it — don't silently produce weak output.
 
-**Content viability:** If the source has no clear point of view, no concrete takeaway, and no memorable insight, the output will reflect that regardless of platform. Say so before generating: "This source is light on original ideas — the output will reflect that. Want to add more substance first?"
+**Content viability — the repurposable core test:**
+Before routing to sub-skills, identify whether the source has a repurposable core: a single insight, claim, or story that would survive any format change.
+
+Ask: "If I could take only ONE thing from this source — what would make the output still worth reading?"
+
+| Core present? | Action |
+|---------------|--------|
+| Clear, specific core | Proceed |
+| Implied but not stated | Proceed; flag to platform-writer: "extract and foreground the core claim in every hook" |
+| Multiple disconnected ideas, no central claim | Ask user: "This covers [X, Y, Z] without a central thread — which one should I build around?" |
+| No POV, purely informational | Warn: "This source has no point of view or distinctive insight. Every output will be generic. Want to add an angle before I proceed?" |
 
 ---
 

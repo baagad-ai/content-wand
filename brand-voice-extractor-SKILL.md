@@ -30,7 +30,8 @@ Extracts or applies brand voice DNA. Two operating modes: READ and SETUP.
 ## READ Mode
 
 **MANDATORY — READ ENTIRE FILE**: Before validating, read `references/brandvoice-schema.md`
-completely. This defines approved keys, rejection rules, and confidence scoring criteria.
+completely. This defines: (1) approved keys for validation, (2) rejection rules,
+(3) confidence scoring criteria, and (4) schema migration rules for older versions.
 **Do NOT load** `references/platform-specs.md` for this task.
 
 1. Read `.content-wand/brand-voice.json`
@@ -40,7 +41,30 @@ completely. This defines approved keys, rejection rules, and confidence scoring 
 
 ---
 
+## Voice Authenticity Framework
+
+Before running the mini-interview, understand what you're trying to capture:
+
+**Authentic voice** = the patterns that appear consistently when the writer is writing for THEMSELVES — not for a job application, not for a press release, not to impress anyone.
+
+**Aspirational voice** = the patterns the writer WISHES they had — often more formal, more polished, more "professional" than their natural writing.
+
+The interview is designed to surface authentic voice. But users will often offer aspirational artifacts:
+- LinkedIn About sections → aspirational (crafted for impression management)
+- Corporate bios → aspirational (written for credibility)
+- Published articles with heavy editing → may be authentic if self-published; not if professionally edited
+- Personal tweets, newsletters, Substack posts, unedited emails → most authentic
+
+Your job is to extract what they actually sound like, not what they wish they sound like. When in conflict, authentic wins.
+
+**Cross-platform variance is signal, not noise:**
+A person who writes casually on Twitter and formally on LinkedIn doesn't have an inconsistent voice — they have a sophisticated voice that adapts. Capture the variance in `platform_variants`, not the average. The problem is only when the user says they're "casual" but ALL samples are formal.
+
+---
+
 ## SETUP Mode — The Mini-Interview
+
+**Do NOT load** `references/platform-specs.md` or `references/brandvoice-schema.md` during the interview phase — only load `references/brandvoice-schema.md` when writing the final JSON file (at Save Prompt).
 
 Maximum 5 questions. Ask them one at a time. Do not rush.
 
@@ -117,6 +141,12 @@ platform_variants:
   twitter: [brief note if different from base voice]
   linkedin: [brief note if different from base voice]
   newsletter: [brief note if different from base voice]
+  instagram: [brief note if different from base voice]
+  youtube-shorts: [brief note if different from base voice]
+  tiktok: [brief note if different from base voice]
+  threads: [brief note if different from base voice]
+  bluesky: [brief note if different from base voice]
+  podcast: [brief note if different from base voice]
 aspirational_notes: [brief note from Q4, marked as aspirational not current]
 ---VOICE-PROFILE-END---
 ```
@@ -147,6 +177,15 @@ I'll write it to .content-wand/brand-voice.json in this project.
 - Notify: "Saved to .content-wand/brand-voice.json — you can delete this file anytime."
 
 **If NO:** Use the profile this session only. Do not write any file.
+
+**Voice profile staleness:**
+Voice evolves. A profile captured 6+ months ago may no longer match the user's current writing style, especially after a platform shift, audience change, or deliberate style evolution.
+
+When loading a saved profile (READ mode), check `updated_at` in the JSON:
+- If `updated_at` > 6 months ago: after applying voice, offer: "Your voice profile is [N] months old. Want to update it? (takes 2 min)"
+- If < 6 months: proceed silently.
+
+This offer is ALWAYS post-generation — never a gate before generating.
 
 ---
 
@@ -183,3 +222,19 @@ Do NOT store raw writing samples or URL-fetched text in the JSON file.
 Do NOT ask brand voice questions before the first output is delivered.
 
 Your job ends when the `---VOICE-PROFILE-END---` delimiter is written, or the JSON file is saved.
+
+---
+
+## NEVER — Sample Collection Anti-Patterns
+
+These will corrupt the voice profile if not caught:
+
+- **NEVER accept a corporate bio or LinkedIn About section as a writing sample.** These are crafted for impression management, not authentic voice. They actively poison extraction — the voice is aspirational, not real. If a user offers one: "That's great for context, but I need something you wrote for yourself — a tweet thread, a newsletter, or even an email to a friend. Those reveal your actual voice."
+
+- **NEVER accept a heavily edited or ghostwritten piece.** If the user says "my PR team helped with this" or "this was for our company blog" — do NOT use it as a sample. Ask for something they wrote and published without editing assistance.
+
+- **NEVER treat platform inconsistency as a problem.** A person who sounds casual on Twitter and formal on LinkedIn does not have a confused voice — they have a sophisticated voice. Extract both and encode as `platform_variants`.
+
+- **NEVER extract voice from samples that are responses to someone else.** Reply tweets, comment threads, and response emails are reactive — they mirror the other person's style. Use only original, initiated pieces.
+
+- **NEVER use the aspirational model (Q4) as voice training data.** "I wish I'd written that" is an explicit signal that it's NOT their current voice. Q4 is informational — it goes in `aspirational_notes` only.

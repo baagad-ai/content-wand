@@ -13,6 +13,20 @@ Transforms content from one type to another. The transformation class determines
 
 ---
 
+## Pre-Transformation Check
+
+Before classifying transformation distance, identify the "repurposable core":
+
+**The Repurposable Core** = the single insight, claim, or story that would survive any format change. Everything else in the source is supporting material.
+
+**How to find it:** Ask: "If I could only take ONE thing from this source into the new format, what would make the output still worth reading?" That is the repurposable core.
+
+**Why this matters:** Most repurposing fails because it tries to preserve EVERYTHING — the structure, the examples, the qualifications. A podcast repurposed as a Twitter thread that covers all 8 segments produces an incoherent thread. A podcast repurposed as a Twitter thread that drives ONE of the 8 segments to maximum depth produces a great thread.
+
+**Core Claim Test:** State the repurposable core in 12 words or fewer. If you can't — the source lacks a clear core and you must notify the user before proceeding: "This source covers several disconnected ideas — which one should I build the [target format] around?"
+
+---
+
 ## Transformation Distance Classification
 
 Classify the transformation before starting:

@@ -1,6 +1,6 @@
 ---
 name: platform-writer
-description: Use when content-wand needs to generate platform-native content from a ContentObject. Applies hard platform constraints and quality heuristics per format. Handles Twitter/X, LinkedIn, newsletter, Instagram carousel, YouTube Shorts, podcast talking points.
+description: Use when content-wand needs to generate platform-native content from a ContentObject. Applies hard platform constraints and quality heuristics per format. Handles Twitter/X, LinkedIn, newsletter, Instagram carousel, YouTube Shorts, TikTok scripts, Threads posts, Bluesky posts, podcast talking points.
 ---
 
 # platform-writer
@@ -76,6 +76,58 @@ If `platform_variants.[this platform]` contains a note, it overrides the base to
 - Voice vs. quality heuristics (Pass 2): apply voice; flag the trade-off if quality drops.
 - NEVER sacrifice a hard constraint (character limit, link rule) to preserve voice.
 
+**LOW confidence voice profile handling:**
+When `confidence: LOW` is present in the VOICE-PROFILE block:
+- Apply the profile as specified, but weight `opening_patterns` and `structural_patterns` more heavily than tone axes (axes are less reliable with sparse samples)
+- Add to `quality_flags`: "Voice profile is LOW confidence — output may not accurately reflect the user's voice. More writing samples would improve accuracy."
+- Do NOT ask the user for more samples — flag it and proceed.
+
+---
+
+## Hook Selection Framework
+
+Hook type selection is not creative choice — it's matching content shape to hook pattern. Wrong hook type + good content = low engagement. Right hook type + average content = solid performance.
+
+**Content-to-Hook Mapping:**
+
+| Content Shape | Best Hook Type | Why | Example |
+|---------------|----------------|-----|---------|
+| Data / research | Outcome-first or Contrarian claim | Data without context is ignored; lead with the surprising conclusion | "Companies that do X earn 3x more. Most do the opposite." |
+| Personal story | Tension-first | Must establish stakes before the story | "I lost everything I built in 18 months. Here's the one decision that caused it." |
+| Tactical how-to | Specificity shock | Specific beats generic every time | "I write 5 tweets in 12 minutes. Not by writing faster." |
+| Opinion / hot take | Direct assertion | Don't soften a hot take with qualifiers | "Productivity systems don't fail. Owners do." NOT "I think productivity systems might be overrated." |
+| Curated list / frameworks | Curiosity gap | Imply the list solves a felt problem | "7 frameworks top founders use that business schools never teach" |
+| Interview / conversation | Quote extraction | Pull the single most surprising statement | Start with the quote, attribute second |
+
+> This table is a starting point, not a rule. When in doubt: choose the hook type that surfaces the content's most surprising or specific element. Surprise and specificity beat correct category selection every time.
+
+**Hook Failure Modes (by platform):**
+- **Twitter:** Hook that requires context to understand. Every tweet must be self-contained.
+- **LinkedIn:** Hook that's inside the first 210 characters but doesn't stop the scroll (uses the space without earning it).
+- **TikTok:** Any hook that starts with "In this video..." or any greeting. Algorithm drops at second 2.
+- **YouTube Shorts:** Hook that promises more than the payoff delivers — drives skip-to-end behavior which tanks retention.
+- **Instagram carousel:** Slide 1 that's a title slide with no hook. The image is the headline.
+
+**The Hook Test (run before committing to a hook):**
+Remove the hook from the content. Can the reader instantly predict what value they'll get? If yes — the hook has done its job. If no — rewrite.
+
+---
+
+## Pre-Generation Thinking Check
+
+Before generating ANY platform output, run these three tests on the ContentObject:
+
+**Test 1 — The Specificity Test:**
+Can you name ONE specific detail, number, or perspective in this content that no one else could have written? If not — the output will be generic regardless of platform. Surface this: "This source lacks specific detail — generated content may feel generic. Want to add more before I generate?"
+
+**Test 2 — The Intended Reader Test:**
+Who is the ONE person who most needs this content? Write for that specific person, not for a demographic. Content written for "entrepreneurs" is unfocused. Content written for "a first-time founder who just hired their first employee" is specific enough to resonate broadly.
+
+**Test 3 — The Hook Bet Test (for tweet 1, slide 1, email subject, TikTok/Shorts hook):**
+Would this hook stop YOUR scroll — if you encountered it as a stranger, not knowing you wrote it? If you would scroll past it — rewrite it before proceeding to Pass 1. This test cannot be skipped.
+
+These are silent checks. If all pass — proceed. If any fail — decide: fix silently, or surface to user (surface only if the gap is unfixable without more input from the user).
+
 ---
 
 ## Pass 1: Compliance Checks (Hard Constraints)
@@ -115,6 +167,24 @@ These are FAIL conditions — fix before outputting:
 - CTA section is the only verbatim scripted section
 - Total outline readable in target episode length
 
+**TikTok script:**
+- Hook stated in first 2 seconds of script (≤ 10 words before first cut)
+- No traditional intro ("Hey everyone, welcome back...")
+- No competitor platform watermarks referenced in script
+- Caption ≤ 2,200 characters including hashtags
+- 3–5 hashtags maximum (more reduces reach)
+- Script format: keyword talking points or full sentences for on-screen text
+
+**Threads post:**
+- Post ≤ 500 characters
+- Maximum 1 link (only first link generates a preview card)
+- Images: up to 10 per post; video up to 5 minutes
+
+**Bluesky post:**
+- Post ≤ 300 characters
+- No character count wasted on URL shorteners (full URLs fine)
+- Single-post format (thread via reply chain — note this if content requires thread)
+
 ---
 
 ## Pass 2: Quality Heuristics (per platform)
@@ -151,6 +221,22 @@ These are WARN conditions — flag in output if failing:
 - Are transitions between segments explicitly noted?
 - Is the CTA section written verbatim?
 
+**TikTok script:**
+- Does the script start mid-thought or mid-action (no intro)?
+- Is the hook in the first 2 seconds (first ≤ 10 words)?
+- Is the content specific enough to rank in TikTok search for its topic?
+- Does the script have a visual direction note every 3–5 seconds?
+
+**Threads post:**
+- Does the post invite a substantive reply (5+ words), not just emoji reactions?
+- Is it written for conversation, not broadcast? (Threads penalizes low-effort engagement)
+- Does it avoid engagement-bait ("comment below!")? Use genuine conversation starters instead.
+
+**Bluesky post:**
+- Does it contain a direct link to the source article or resource? (Bluesky rewards link posts)
+- Is the tone intellectually engaged, not promotional? (Community is sensitive to marketing-speak)
+- At 300 chars, is every word earning its place?
+
 ---
 
 ## Handling Quality Warnings
@@ -172,7 +258,7 @@ When a quality check fails (WARN):
 
 ```
 ---PLATFORM-OUTPUT-START---
-platform: [twitter-x|linkedin|newsletter|instagram-carousel|youtube-shorts|podcast]
+platform: [twitter-x|linkedin|newsletter|instagram-carousel|youtube-shorts|tiktok|threads|bluesky|podcast]
 compliance: [pass|fail]
 compliance_failures: [list — empty if pass]
 quality_flags: [list of quality warnings — empty if all pass]
