@@ -3,3 +3,4 @@ node_modules/
 *.log
 .content-wand/brand-voice.json
 content-output/
+.worktrees/
