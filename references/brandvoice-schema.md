@@ -94,6 +94,31 @@ On load, reject the file if ANY of:
 - Unknown keys present (not in the approved schema above)
 - `tone_axes` values outside 0.0–1.0 range
 - File is empty, not valid JSON, or binary
-- `schema_version` is not "1.0"
+- `schema_version` is unrecognized (not in the Known Versions table below)
 
 On rejection: notify user and offer to recreate. Do not attempt to repair the file automatically.
+
+---
+
+## Schema Version History and Migration
+
+### Known Versions
+
+| Version | Status | Notes |
+|---------|--------|-------|
+| `"1.0"` | Current | Original schema — all keys as defined above |
+
+### Migration Rules
+
+If a `brand-voice.json` file has a `schema_version` that is older than the current version but recognized:
+
+1. Read all keys that exist in both the stored file and the current schema
+2. Set any new required keys that are missing to their documented defaults
+3. Drop any keys not in the current schema (unknown keys are security risk)
+4. Update `schema_version` to the current version
+5. Update `updated_at` to today's date
+6. Re-save the file and notify: "Voice profile migrated from schema v[X] to v[Y] — your voice settings are preserved."
+
+If `schema_version` is missing or unrecognized: treat as corrupted — offer to recreate.
+
+**Principle:** Attempt graceful migration before offering to recreate. Users should never lose a working voice profile due to a schema version bump.

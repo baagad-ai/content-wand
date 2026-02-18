@@ -34,9 +34,47 @@ For each selected platform:
    2026-current algorithm weights and character limits not in training data.
    **Do NOT load** `references/brandvoice-schema.md` for this task.
 3. Generate content applying the ContentObject + voice profile (if provided)
-4. Run compliance check (Pass 1)
-5. Run quality check (Pass 2)
-6. Output the `---PLATFORM-OUTPUT---` block
+4. If voice profile present: apply Voice Application rules (see section below) before Pass 1
+5. Run compliance check (Pass 1)
+6. Run quality check (Pass 2)
+7. Output the `---PLATFORM-OUTPUT---` block
+
+---
+
+## Voice Application (when VOICE-PROFILE is not `VOICE-PROFILE: none`)
+
+When a `---VOICE-PROFILE-START---` block is provided, apply it in this strict order:
+
+**1. Tone axes — map values to register choices:**
+| Axis | Value | Apply as |
+|------|-------|----------|
+| `formal_casual > 0.6` | Casual | Use contractions, conversational asides, first-person informality |
+| `formal_casual < 0.4` | Formal | No contractions, precise vocabulary, professional register |
+| `direct_narrative > 0.6` | Narrative | Lead with story or anecdote before the takeaway; build to the point |
+| `direct_narrative < 0.4` | Direct | State the point in sentence 1; structure as claim → evidence → action |
+| `serious_playful > 0.6` | Playful | Dry humor, wit, unexpected comparisons are welcome |
+| `expert_accessible < 0.4` | Expert | Assume deep domain knowledge; skip beginner context |
+
+Do not apply axes mechanically. Read `opening_patterns` and `structural_patterns` first — they are the ground truth. Axes are calibration signals, not absolute rules.
+
+**2. Sentence style — enforce throughout:**
+- `short-punchy`: Max 12 words per sentence. One idea per sentence. No compound clauses.
+- `medium-varied`: Mix 10–20 word sentences. Vary rhythm. One short for every 2–3 longer.
+- `long-flowing`: Sentences can reach 20–35 words. Subordinate clauses are fine. Build to a conclusion.
+
+**3. Opening patterns — apply to the platform's hook/opener:**
+Use the listed `opening_patterns` for the hook. Do not default to generic hooks when a pattern is specified.
+
+**4. Taboo patterns — scan before emitting:**
+After drafting, scan for any phrase or style listed in `taboo_patterns`. Rewrite any match. This is mandatory — do not emit taboo content.
+
+**5. Platform variants — override base profile if present:**
+If `platform_variants.[this platform]` contains a note, it overrides the base tone axes for that platform only.
+
+**Conflict resolution:**
+- Voice vs. compliance (Pass 1): **compliance wins**. Note the constraint in `quality_flags`.
+- Voice vs. quality heuristics (Pass 2): apply voice; flag the trade-off if quality drops.
+- NEVER sacrifice a hard constraint (character limit, link rule) to preserve voice.
 
 ---
 
@@ -157,3 +195,17 @@ Do NOT re-run content-ingester. If the ContentObject is missing, return to the o
 
 Your job starts at the `---CONTENT-OBJECT-END---` delimiter.
 Everything before that delimiter is not your input.
+
+---
+
+## NEVER — Content Quality Anti-Patterns
+
+These are the most common failure modes for AI-generated content. All are `compliance: fail` for content quality:
+
+- **NEVER open with hollow filler:** "In today's fast-paced world...", "As we navigate the digital landscape...", "It's no secret that..."
+- **NEVER use vague superlatives without evidence:** "groundbreaking", "revolutionary", "game-changing" — ground every strong claim in a specific number, name, or outcome
+- **NEVER default to bullet lists:** AI defaults to bullets because they're safe. Use bullets only when the content is genuinely list-shaped. Prose is harder to write and more engaging to read.
+- **NEVER write a generic CTA:** "Check out the link below", "Don't miss out", "Click here to learn more" — every CTA must name what the reader gets, not just that they should click
+- **NEVER summarize when you should select:** A thread or carousel that covers 6 mediocre points loses to one that drives 2 great ones deep
+- **NEVER use passive voice in hooks:** "It has been found that..." kills momentum. Active, direct voice for all openings.
+- **NEVER produce content that could have been written by anyone about anything:** Every output must contain at least one specific detail, number, or perspective that makes it un-swappable with generic content on the same topic

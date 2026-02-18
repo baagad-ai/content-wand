@@ -78,6 +78,25 @@ If there's a mismatch between source type and selected platforms, note it — do
 
 ---
 
+## STEP 2.5 — Reference Freshness Check
+
+Before ingesting content, verify platform specs are current:
+
+1. Read `references/platform-specs.md` — check the `last_verified:` date in the file header
+2. Calculate days elapsed since `last_verified`
+3. **If `last_verified` is missing OR age > `refresh_after_days` (30 days):**
+   - Emit: "Platform specs are outdated — refreshing before we start..."
+   - Run WebSearch for each major platform being used (or all if "all platforms" selected):
+     - `"[platform] algorithm update [current year]"`
+     - `"[platform] character limit changes [current year]"`
+   - Compare findings against current sections in `platform-specs.md`
+   - Update ONLY the sections where changes are confirmed. Do not guess.
+   - Update `last_verified:` to today's date in the file header
+   - Emit: "Specs updated. Generating now."
+4. **If `last_verified` < 30 days old:** Proceed without refresh.
+
+---
+
 ## STEP 3 — Ingest Content
 
 Invoke `content-ingester` sub-skill.
@@ -104,7 +123,10 @@ Then invoke `platform-writer` IF user also wants specific platform formats.
 ## STEP 5 — Deliver First Output
 
 Show all generated content inline (preview).
-Save each format to `content-output/YYYY-MM-DD-[slug]/[platform].md`.
+
+**Save path:** `content-output/YYYY-MM-DD-[slug]/[platform].md`
+- If `content-output/YYYY-MM-DD-[slug]/` already exists: use `content-output/YYYY-MM-DD-[slug]-v2/` (increment until unique — never overwrite existing outputs)
+
 Emit: "Files saved to content-output/[date]-[slug]/"
 
 **If platform-writer returns `compliance: fail` for any platform:**
@@ -114,11 +136,32 @@ Surface the failure immediately — do NOT save that output:
 Want me to fix and regenerate? → Yes / Skip this platform
 ```
 
+**If ALL platforms fail compliance:**
+```
+All outputs failed compliance checks. This usually means the source content
+is incompatible with the selected platforms. Want to:
+→ Fix and retry all platforms
+→ Choose different platforms
+→ Review the source content first
+```
+
 ---
 
 ## STEP 6 — Offer Brand Voice (AFTER output, never before)
 
-After delivery, ask:
+After delivery, check whether `.content-wand/brand-voice.json` exists in the project directory.
+
+**If saved voice profile exists:**
+```
+I found your saved voice profile.
+Want me to regenerate these in your voice?
+
+→ Yes, apply my voice
+→ No thanks, this is fine
+```
+If YES: Invoke `brand-voice-extractor` in READ mode → proceed to Step 7.
+
+**If no saved profile:**
 ```
 Want these to sound more like you?
 I can learn your voice in 2 minutes — and remember it for every future use.
@@ -126,19 +169,24 @@ I can learn your voice in 2 minutes — and remember it for every future use.
 → Yes, set up my voice
 → No thanks, this is fine
 ```
+If YES: Invoke `brand-voice-extractor` in SETUP mode → proceed to Step 7.
 
-If YES: Invoke `brand-voice-extractor` sub-skill in SETUP mode.
-If NO: Done.
+If NO (either path): Done.
 
 ---
 
 ## STEP 7 — Regenerate with Voice (if brand voice was set up)
 
 After brand voice extraction:
-- Invoke `brand-voice-extractor` in APPLY mode (reads the extracted profile)
-- Invoke `platform-writer` again with the `---VOICE-PROFILE---` block
-- Deliver voice-matched versions
-- Offer to save: "Save this voice profile so I remember it next time? → Yes / No"
+
+- **If SETUP mode just ran this session:** The `---VOICE-PROFILE-END---` block is already in memory. Do NOT re-invoke `brand-voice-extractor` — pass the in-memory block directly to `platform-writer`.
+- **If READ mode ran (loading from saved file):** The `---VOICE-PROFILE-END---` block was returned by `brand-voice-extractor`. Pass it directly to `platform-writer`.
+
+Then:
+- Invoke `platform-writer` with: original `---CONTENT-OBJECT---` block + same platform list + `---VOICE-PROFILE---` block
+- Deliver voice-matched versions inline
+- Offer to save (only if SETUP mode ran — READ mode already has a saved file):
+  "Save this voice profile so I remember it next time? → Yes / No"
 
 ---
 
@@ -149,6 +197,8 @@ After brand voice extraction:
 - NEVER invoke platform-writer with a missing CONTENT-OBJECT — return to Step 3
 - NEVER invoke repurpose-transformer and platform-writer in parallel — transformer output feeds writer input
 - NEVER save files to content-output/ if compliance: fail — surface the failure to the user first
+- NEVER use platform-specs.md without running the Step 2.5 freshness check — stale specs silently produce non-compliant content
+- NEVER overwrite an existing content-output/ directory — use versioned directory names (-v2, -v3, etc.)
 
 ---
 
@@ -157,12 +207,14 @@ After brand voice extraction:
 | Input | Handling |
 |-------|---------|
 | <50 words | Proceed; warn: "Short input — outputs will be concise" |
-| >8,000 words | Summarize to top 3 themes; note this in output |
+| >8,000 words | content-ingester passes full text; emit warning to platform-writer: "Source is long — prioritize depth on 2–3 themes over covering everything" |
 | URL → 403/paywall | Notify; ask for paste; do NOT proceed on raw HTML |
 | Non-English input | Proceed in input language; note platform specs may vary for non-Latin scripts |
 | Already a tweet thread | Trigger mode-detection question (Step 1) |
 | Corrupted `.content-wand/brand-voice.json` | Reject; offer to recreate; never proceed on corrupt data |
 | Topic-only input (no content) | content-ingester runs WebSearch; note sources used |
+| User changes mode mid-flow | Stop current generation; re-run mode detection from Step 1; re-use same CONTENT-OBJECT (skip Step 3) |
+| Same content processed twice same day | Detect existing output directory; use -v2 suffix; notify: "Previous output preserved at [dir], new output at [dir-v2]" |
 
 ---
 

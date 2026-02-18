@@ -42,8 +42,19 @@ Classify the transformation before starting:
 ### EXPAND transformation
 - Ask ONE clarifying question if the angle is ambiguous: "What aspect should I develop most?"
 - If the user has already specified the angle, proceed directly
-- Add supporting context, examples, or explanation — but only what serves the stated angle
-- Do not pad. Every added sentence must earn its place.
+- **Target length:** Aim for 3–5× the source word count. If source is 100 words, target 300–500 words. If source is a single tweet (20–30 words), do not stop until the output has genuine depth.
+- **Expansion structure:**
+  1. State the core claim from the source — make it sharper, not softer
+  2. Add 2–3 concrete examples, analogies, or supporting evidence that serve the stated angle
+  3. Anticipate and address the most obvious objection or misunderstanding
+  4. Close with a takeaway that goes one step beyond restating the opening
+
+**NEVER when expanding:**
+- NEVER pad with transitions that add no information ("As I mentioned above...", "In conclusion, as we can see...")
+- NEVER add ideas not present or clearly implied in the source material
+- NEVER expand symmetrically — pick the 1–2 ideas worth developing and go deep; cut the rest
+- NEVER treat "more words" as success — every sentence must add meaning, not length
+- NEVER lose the source's distinctive angle in an attempt to be comprehensive
 
 ### STRUCTURAL transformation
 - This is the highest-effort class
