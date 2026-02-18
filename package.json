@@ -1,7 +1,7 @@
 {
   "name": "content-wand",
   "version": "1.0.1",
-  "description": "Turn any content into 6 platform-native formats or transform between content types — with optional brand voice matching. Works on text, URLs, transcripts, rough notes, or just a topic idea. Includes prompt injection defenses for safe processing of external content.",
+  "description": "Transform any content into 9 platform-native formats or convert between content types — with optional brand voice matching. Supports Twitter/X, LinkedIn, newsletter, Instagram, YouTube Shorts, TikTok, Threads, Bluesky, and podcast. Works from text, URLs, transcripts, rough notes, or a topic idea. Secure-by-default with prompt injection defenses.",
   "type": "skill",
   "author": "Prajwal Mishra",
   "license": "MIT",
