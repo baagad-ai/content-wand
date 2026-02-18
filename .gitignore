@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
+package-lock.json
 *.log
 .content-wand/brand-voice.json
 content-output/
