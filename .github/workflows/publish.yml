@@ -1,9 +1,12 @@
-name: Publish to npm
+name: Publish
 
 on:
   push:
     tags:
       - 'v*'
+
+permissions:
+  contents: write   # needed to create GitHub Releases
 
 jobs:
   publish:
@@ -22,13 +25,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref_name }}
           body: |
             See [CHANGELOG.md](https://github.com/baagad-ai/content-wand/blob/main/CHANGELOG.md) for changes in this release.
-          draft: false
-          prerelease: false
+          generate_release_notes: true
