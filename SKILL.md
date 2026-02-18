@@ -105,7 +105,7 @@ Ask: "If I could take only ONE thing from this source — what would make the ou
 
 Before ingesting content, verify platform specs are current:
 
-1. Read `references/platform-specs.md` — check the `last_verified:` date in the file header
+1. **MANDATORY — READ ENTIRE FILE**: Read `references/platform-specs.md` completely. Do NOT load `references/brandvoice-schema.md` in this step. Check the `last_verified:` date in the file header.
 2. Calculate days elapsed since `last_verified`
 3. **If `last_verified` is missing OR age > `refresh_after_days` (30 days):**
    - Emit: "Platform specs are outdated — refreshing before we start..."
