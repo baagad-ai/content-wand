@@ -1,7 +1,7 @@
 {
   "name": "content-wand",
-  "version": "1.0.0",
-  "description": "Turn any content into 6 platform-native formats or transform between content types — with optional brand voice matching. Works on text, URLs, transcripts, rough notes, or just a topic idea.",
+  "version": "1.0.1",
+  "description": "Turn any content into 6 platform-native formats or transform between content types — with optional brand voice matching. Works on text, URLs, transcripts, rough notes, or just a topic idea. Includes prompt injection defenses for safe processing of external content.",
   "type": "skill",
   "author": "Prajwal Mishra",
   "license": "MIT",
@@ -15,11 +15,15 @@
     "newsletter",
     "instagram-carousel",
     "youtube-shorts",
+    "tiktok",
     "podcast",
     "content-transformation",
     "solopreneur",
     "creator",
-    "claude-skill"
+    "claude-skill",
+    "prompt-injection-defense",
+    "ai-security",
+    "secure-ai"
   ],
   "homepage": "https://github.com/baagad-ai/content-wand",
   "repository": {
@@ -32,8 +36,8 @@
   "skills": {
     "content-wand": {
       "name": "content-wand",
-      "description": "Turn any content into platform-native formats or transform between content types. Atomize (1 piece → 6 platforms) or repurpose (type A → type B). Optional brand voice matching. Works with text, URLs, transcripts, notes, or a topic idea.",
-      "version": "1.0.0"
+      "description": "Turn any content into platform-native formats or transform between content types. Atomize (1 piece → 6 platforms) or repurpose (type A → type B). Optional brand voice matching. Works with text, URLs, transcripts, notes, or a topic idea. Includes injection detection for safe URL and web content processing.",
+      "version": "1.0.1"
     }
   }
 }
