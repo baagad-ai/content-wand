@@ -30,7 +30,7 @@ Thank you for helping improve content-wand.
 
 4. **Update CHANGELOG.md** under `[Unreleased]` before submitting.
 
-5. **Test manually** — paste the skill into Claude and run at least one scenario from the test cases in `docs/plans/2026-02-18-content-wand.md`. Paste the output in your PR.
+5. **Test manually** — paste the skill into Claude and run at least one full scenario (ATOMIZE with a real article URL, or REPURPOSE from transcript → newsletter). Paste the output in your PR.
 
 6. **Open a PR** using the PR template.
 
