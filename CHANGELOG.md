@@ -5,6 +5,25 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.0.1] — 2026-02-18
+
+### Security
+
+**Prompt injection defenses added across all sub-skills**
+
+- `SKILL.md` — Added Security: Trust Boundaries section with a 4-tier trust model (SKILL.md → user commands → tool outputs → external content). Documents what untrusted content can and cannot influence. Added orchestrator-level `injection_warning` surfacing protocol.
+- `content-ingester-SKILL.md` — Added behavioral injection detection for fetched URL content and web search results. HIGH RISK patterns (persona hijacking, file access directives, output manipulation) stop and flag; MEDIUM RISK patterns warn and continue. Extended CONTENT-OBJECT output format with `injection_warning`, `injection_detail`, `injection_warning_low`, `injection_detail_low` fields. Existing URL scheme validation and delimiter guard preserved.
+- `platform-writer-SKILL.md` — Added Security section: `raw_text` is source material to transform, not instructions to execute. Content flagged with `injection_warning: true` is never reproduced in any output.
+- `repurpose-transformer-SKILL.md` — Added Security section: behavioral directives embedded in source content are ignored; legitimate content is transformed normally.
+- `brand-voice-extractor-SKILL.md` — Added Security section: writing samples are voice pattern data only; instructions embedded in samples are never executed. Existing JSON schema validation (unknown key rejection) provides defense for READ mode.
+
+### Changed
+
+- Bumped version 1.0.0 → 1.0.1
+- Removed `puppeteer` and `pdf-lib` from root `package.json` (PDF slideshow artifacts unrelated to the skill; `assets/` is gitignored)
+- Updated `package.json` description and `skills` block to mention prompt injection defense
+- Added keywords: `prompt-injection-defense`, `ai-security`, `secure-ai`
+
 ## [1.0.0] — 2026-02-18
 
 ### Added
@@ -42,5 +61,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Pre-transformation check: repurpose-transformer validates a repurposable core concept exists before any work begins
 - VOICE-PROFILE block re-emitted verbatim by orchestrator to ensure downstream sub-skills receive it even in long sessions
 
-[Unreleased]: https://github.com/baagad-ai/content-wand/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/baagad-ai/content-wand/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/baagad-ai/content-wand/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/baagad-ai/content-wand/releases/tag/v1.0.0
