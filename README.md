@@ -33,6 +33,99 @@ REPURPOSE classifies transformation distance before writing: same-length restruc
 
 ---
 
+## In practice
+
+Input — a rough note, pasted directly:
+
+> Most productivity advice is wrong. Not because the tactics are bad — they're fine. But they optimize for the wrong constraint. You don't lack systems. You lack clarity on what actually matters. I spent 3 years optimizing my task manager before I realized I was organizing noise.
+
+`/content-wand atomize for Twitter and LinkedIn`
+
+---
+
+**Twitter/X thread** — 6 tweets, all under 280 characters, no links in body
+
+```
+Most productivity advice optimizes for the wrong constraint.
+You don't lack systems. You lack clarity on what actually matters.
+
+---
+
+I spent 3 years perfecting my task manager. Color-coded priorities.
+Nested projects. Weekly reviews. The whole thing.
+
+I was just organizing noise more efficiently.
+
+---
+
+The productivity industry sells systems because systems are sellable.
+Clarity isn't. You can't charge $49/month for
+"figure out what you actually want."
+
+---
+
+Here's the tell: if your task list has 40 items on it, you don't
+have a productivity problem. You have a prioritization problem
+disguised as a volume problem.
+
+---
+
+A full task manager feels like progress. It isn't. It's procrastination
+with better aesthetics. The hard work is deciding what to delete —
+not what app to put the rest in.
+
+---
+
+The question that changed how I work:
+"If I could only finish 3 things this week and they had to matter,
+what are they?"
+
+That's it. That's the system.
+```
+
+---
+
+**LinkedIn post** — 1,621 characters, no Markdown, hook within first 210 characters
+
+```
+Three years. That's how long I optimized my task manager before
+realizing I was solving the wrong problem.
+
+Not because the system was bad. The system was fine. I had
+color-coded tags, recurring reviews, nested projects. It looked
+impressive. It was just very organized noise.
+
+Here's what most productivity advice gets wrong: it treats execution
+as the bottleneck. So you get frameworks, apps, and templates — all
+designed to help you do more, faster. But doing more faster is only
+valuable if what you're doing matters.
+
+The real constraint isn't systems. It's clarity.
+
+When you don't know what actually matters, a better task manager
+just gives you a more polished list of the wrong things to do.
+You feel productive. You're not making progress.
+
+The shift that helped me wasn't a new tool. It was a single,
+uncomfortable constraint: if I could only finish three things this
+week and they had to genuinely move something forward, what are they?
+
+Everything else becomes noise the moment you answer that honestly.
+
+→ Clarity first. Systems second.
+→ Delete before you organize.
+→ A shorter list you actually trust beats a complete list you avoid.
+
+What's one thing on your list right now that you know, deep down,
+shouldn't be there?
+```
+
+---
+
+Both outputs pass compliance. The thread stays within 280 characters per tweet with no links in the body. The LinkedIn post uses no Markdown formatting and the hook lands within the first 210 characters.
+
+---
+
 ## 9 platforms
 
 | Platform | What you get | Key constraint |
@@ -63,13 +156,23 @@ Platform specs include current algorithm signals (engagement weighting, reach pe
 
 ---
 
+## Built for
+
+Solo creators, indie makers, and developer-writers who publish regularly across platforms. If you're writing blog posts, threads, newsletters, and scripts yourself — and spending more time reformatting than writing — this is for you.
+
+If you have a content team with a CMS and a scheduling tool, you probably want something with a dashboard.
+
+---
+
 ## Brand voice (optional)
 
-First run always generates in a clean, neutral voice. After output, content-wand offers to learn yours.
+After your first output, content-wand can learn your writing style — and remember it across every session, every platform. The same brief that produces neutral copy without a profile produces output that sounds distinctly like you with one.
 
-A 5-question interview takes about 2 minutes. Question 1 — writing samples — carries 70% of the profile weight. Confidence scores as HIGH (≥3,000 sample words across ≥2 content types), MED, or LOW (<1,500 words). Low-confidence profiles are flagged and applied conservatively.
+First run always generates in a clean, neutral voice. After delivery, content-wand offers to set up your profile.
 
-The profile saves to `.content-wand/brand-voice.json` in your project. It stores extracted style patterns only — tone axes on a 0.0–1.0 scale, sentence style, vocabulary level, opening patterns, structural patterns, and platform-specific notes. It never stores your raw writing, fetched URLs, or any personal data.
+A 5-question interview takes ~5 minutes. Question 1 — writing samples — carries 70% of the profile weight. Confidence scores as HIGH (≥3,000 sample words across ≥2 content types), MED, or LOW (<1,500 words). Low-confidence profiles are flagged and applied conservatively.
+
+The profile saves to `.content-wand/brand-voice.json` in your project. It stores extracted patterns only — tone axes, sentence style, vocabulary level, opening patterns, structural patterns, and platform-specific notes. Never your raw writing, fetched URLs, or personal data.
 
 To reset: delete `.content-wand/brand-voice.json`.
 
@@ -142,11 +245,17 @@ content-wand (SKILL.md)
 
 **Design decisions worth knowing:**
 
-- Routing instructions load in the first 50 lines of SKILL.md to counter attention degradation in long contexts ("Lost in the Middle" — MIT/TACL 2024)
-- Platform specs load once before generation, not per-platform — prevents redundant token use in multi-platform runs
-- Brand voice is never a gate — first output always runs without it; setup is offered after
-- All sub-skills communicate via structured delimiter blocks (`---BLOCK-NAME-START---`) to prevent cross-skill ambiguity
-- Every NOT contract names specific rationalizations Claude might use, not just states prohibitions
+- **Routing loads first, not last.** All mode detection and routing logic appears in the first 50 lines of SKILL.md. LLMs follow mid-document instructions less reliably than early-document ones — a documented failure mode for long prompts ("Lost in the Middle" — MIT/TACL 2024). Position is architecture.
+
+- **Platform specs load once, not per-platform.** In a 9-platform ATOMIZE run, re-reading spec constraints for each platform wastes context. Specs are read once before the generation loop and held in active context for all platforms.
+
+- **Brand voice is never a gate.** The first output always runs without a voice profile. Setup is offered after delivery, never before. Gating content behind an interview would make first-time use feel like homework.
+
+- **Sub-skills communicate via structured delimiter blocks** (`---BLOCK-NAME-START---`), not prose. If there's no delimiter, it's not a handoff — this prevents output from one sub-skill being misread as input instructions by the next.
+
+- **NOT contracts name rationalizations, not just prohibitions.** Instead of "don't do X," each NOT contract names the specific excuse the model might use to justify doing X anyway — making it much harder to rationalize around the rule.
+
+- **Two-pass validation per platform.** Pass 1 checks hard constraints (character limits, link placement rules, format requirements) — these are `compliance: fail` conditions that block saving. Pass 2 checks quality heuristics (hook strength, CTA clarity, engagement design) — these are `quality_flags` warnings, self-corrected silently where possible.
 
 ---
 
