@@ -4,3 +4,4 @@ node_modules/
 .content-wand/brand-voice.json
 content-output/
 .worktrees/
+assets/
