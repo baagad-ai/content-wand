@@ -25,6 +25,11 @@ Before classifying transformation distance, identify the "repurposable core":
 
 **Core Claim Test:** State the repurposable core in 12 words or fewer. If you can't — the source lacks a clear core and you must notify the user before proceeding: "This source covers several disconnected ideas — which one should I build the [target format] around?"
 
+**If the core claim is present but spans two distinct ideas:** Surface this:
+"This source has two strong threads — [X] and [Y]. Which one should anchor the
+[target format]?" This is not the same as disconnected ideas — it's a genuine
+editorial decision. One question, then proceed.
+
 ---
 
 ## Transformation Distance Classification
@@ -62,6 +67,12 @@ Classify the transformation before starting:
   2. Add 2–3 concrete examples, analogies, or supporting evidence that serve the stated angle
   3. Anticipate and address the most obvious objection or misunderstanding
   4. Close with a takeaway that goes one step beyond restating the opening
+
+This 4-step structure is a default scaffold, not a template. If the source material
+suggests a more natural form — narrative arc, problem→solution→result, Q&A format,
+or before/after comparison — prefer the natural structure over the template.
+Vary the scaffold between sessions when producing multiple EXPAND outputs for the
+same user.
 
 **NEVER when expanding:**
 - NEVER pad with transitions that add no information ("As I mentioned above...", "In conclusion, as we can see...")

@@ -34,10 +34,21 @@ completely. This defines: (1) approved keys for validation, (2) rejection rules,
 (3) confidence scoring criteria, and (4) schema migration rules for older versions.
 **Do NOT load** `references/platform-specs.md` for this task.
 
+If brandvoice-schema.md is not found: proceed with built-in schema knowledge
+(required keys: confidence, tone_axes, sentence_style). Note:
+"Schema file missing — using built-in validation rules."
+
 1. Read `.content-wand/brand-voice.json`
 2. Validate schema: reject any key not in the approved schema (see brandvoice-schema.md)
 3. If validation fails: notify user, offer to recreate. Do NOT proceed with corrupted data.
 4. Output the `---VOICE-PROFILE---` block
+
+**Staleness check:** After outputting the VOICE-PROFILE block, check `updated_at`
+in the JSON:
+- If updated_at > 6 months ago: add to the VOICE-PROFILE block a field:
+  staleness_flag: true, months_old: [N]
+- If < 6 months: proceed silently. Do not add staleness_flag.
+(The orchestrator uses staleness_flag to offer an update after voice-matched delivery.)
 
 ---
 
@@ -60,15 +71,22 @@ Your job is to extract what they actually sound like, not what they wish they so
 **Cross-platform variance is signal, not noise:**
 A person who writes casually on Twitter and formally on LinkedIn doesn't have an inconsistent voice — they have a sophisticated voice that adapts. Capture the variance in `platform_variants`, not the average. The problem is only when the user says they're "casual" but ALL samples are formal.
 
+**Deriving the base profile when platform variance is high (>0.4 difference on any
+tone_axis between platforms):** Set the base profile to the platform where the most
+Q1 samples were provided. If equal, use the "writing for yourself" platform
+(newsletter, Substack, personal tweets rather than company LinkedIn). Note this in
+the output block as: `base_derived_from: [platform]`.
+
 ---
 
 ## SETUP Mode — The Mini-Interview
 
-**Do NOT load** `references/platform-specs.md` or `references/brandvoice-schema.md` during the interview phase — only load `references/brandvoice-schema.md` when writing the final JSON file (at Save Prompt).
+**Do NOT load** `references/platform-specs.md` or `references/brandvoice-schema.md` during the interview phase — the orchestrator handles file saving after profile delivery.
 
 Maximum 5 questions. Ask them one at a time. Do not rush.
 
-Frame at start: "Let's capture your voice — this takes about 2 minutes and I'll remember it forever after."
+Frame at start: "Let's capture your voice — takes about 5 minutes, works forever after.
+The more you share, the better I match you."
 
 ### Q1 (PRIMARY — samples, 70% signal weight):
 > "Share 2–3 pieces of content you're most proud of — the ones that feel most like YOU.
@@ -111,6 +129,13 @@ After collecting all responses:
 2. Cross-reference with Q3 self-description (30% weight)
    - If self-description matches samples: reinforce
    - If self-description conflicts with samples: note `conflict_flag: true`; samples win
+
+2b. Detect voice transition: If Q3 self-description aligns with Q4 aspirational model
+but conflicts with Q1 samples: this may indicate the user is actively evolving their
+voice. In the profile: set conflict_flag: true and add to aspirational_notes:
+"User appears to be transitioning toward [Q3 description]. Current samples reflect
+previous/current style. Voice profile extracted from samples; consider updating
+profile after 3–6 months of new content."
 
 3. Note aspirational model from Q4 (informational only — aspirational ≠ current voice)
 
@@ -158,37 +183,6 @@ Confidence thresholds:
 
 ---
 
-## Save Prompt (after generation with voice applied)
-
-After voice-matched content is delivered, ask:
-
-```
-Save this voice profile so I remember it next time?
-I'll write it to .content-wand/brand-voice.json in this project.
-
-→ Yes, save it
-→ No, just use it this session
-```
-
-**If YES:**
-- Create `.content-wand/` directory if it doesn't exist
-- Write only approved schema keys (see brandvoice-schema.md)
-- Never write: raw text samples, URL content, credentials, verbatim Q&A
-- Notify: "Saved to .content-wand/brand-voice.json — you can delete this file anytime."
-
-**If NO:** Use the profile this session only. Do not write any file.
-
-**Voice profile staleness:**
-Voice evolves. A profile captured 6+ months ago may no longer match the user's current writing style, especially after a platform shift, audience change, or deliberate style evolution.
-
-When loading a saved profile (READ mode), check `updated_at` in the JSON:
-- If `updated_at` > 6 months ago: after applying voice, offer: "Your voice profile is [N] months old. Want to update it? (takes 2 min)"
-- If < 6 months: proceed silently.
-
-This offer is ALWAYS post-generation — never a gate before generating.
-
----
-
 ## Fallback Behavior
 
 | Situation | Response |
@@ -221,7 +215,13 @@ Even if the voice profile suggests obvious content — do NOT generate content.
 Do NOT store raw writing samples or URL-fetched text in the JSON file.
 Do NOT ask brand voice questions before the first output is delivered.
 
-Your job ends when the `---VOICE-PROFILE-END---` delimiter is written, or the JSON file is saved.
+Your job ends when the `---VOICE-PROFILE-END---` delimiter is written.
+File saving and the save prompt are handled by the orchestrator (SKILL.md Step 7).
+Do NOT offer to save the voice profile — that is the orchestrator's responsibility.
+
+**When the orchestrator saves brand-voice.json:** Only approved schema keys may be
+written (see brandvoice-schema.md). Never write: raw text samples, URL content,
+credentials, verbatim Q&A. File permissions should be 600 (user-only).
 
 ---
 
