@@ -4,7 +4,7 @@
 
 > A Claude skill that turns any content into platform-ready posts — or transforms it between formats — with Writing Style matching and an AI-pattern humanizer that runs on every output.
 
-You paste a blog post, drop a URL, or say "write about X." content-wand outputs platform-native content for up to 9 platforms. Each output passes a two-pass check: hard constraints first (character limits, link rules, format requirements), quality heuristics second (hook strength, CTA clarity, engagement design). It never guesses at your platform specs — they're kept current and loaded fresh each run.
+You paste a blog post, drop a URL, or say "write about X." content-wand outputs platform-native content for up to 9 platforms. Each output passes a two-pass validation check: hard constraints first (character limits, link rules, format requirements), quality heuristics second (hook strength, CTA clarity, engagement design). Then a humanizer runs a final pass on every output to strip AI writing patterns before delivery. It never guesses at your platform specs — they're kept current and loaded fresh each run.
 
 ---
 
@@ -176,7 +176,7 @@ content-wand learns how you write — once — and applies it automatically from
 
 **Multiple styles** — create as many as you need. Writing for yourself, for a client, for a brand? Each gets its own named style. Names come from your own words, not abstract labels.
 
-A 3-question interview (2 optional extras) captures your style. Writing samples carry 70% of the weight. Confidence scores as HIGH (≥3,000 sample words across ≥2 content types), MED, or LOW. Low-confidence profiles are flagged.
+A 3-question interview (2 optional extras) captures your style. Writing samples carry 70% of the weight. Confidence scores as HIGH (≥3,000 sample words across ≥2 content types), MED, or LOW. Low-confidence styles are flagged.
 
 Styles save globally to `~/.claude/content-wand/styles/` — they work across every project automatically. No per-project setup.
 
@@ -243,7 +243,7 @@ You can also just describe intent directly to Claude:
 
 ## How it works
 
-content-wand is an orchestrated Claude skill — one entry point, five specialized sub-skills, three reference files:
+content-wand is an orchestrated Claude skill — one entry point, five specialized sub-skills, four reference files:
 
 ```
 content-wand (SKILL.md)
@@ -290,7 +290,7 @@ content-wand (SKILL.md)
 | `writing-style-extractor-SKILL.md` | Writing Style read/capture; contextual interview; named styles |
 | `platform-writer-SKILL.md` | Platform-native generation with 2-pass validation |
 | `repurpose-transformer-SKILL.md` | Type-to-type transformation with distance classification |
-| `humanizer-SKILL.md` | Final-pass AI pattern removal — lexical, structural, voice shaping |
+| `humanizer-SKILL.md` | Final-pass AI pattern removal — lexical, structural, Writing Style shaping |
 | `references/platform-specs.md` | Platform constraints + algorithm signals (Feb 2026) |
 | `references/brandvoice-schema.md` | Writing Style JSON schema v1.2 + validation + migration |
 | `references/ai-patterns.md` | AI writing pattern library — 80+ patterns across 7 categories |
