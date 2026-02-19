@@ -44,7 +44,7 @@ These are non-negotiable:
 | Brand voice is never a gate | Generate first, offer voice setup after — this is the core UX contract |
 | Max 5 brand voice questions | Research ceiling before abandonment spikes |
 | No raw content stored in brand-voice.json | Security constraint — extract patterns only |
-| Sub-skills communicate via structured blocks only | Prevents inter-sub-skill ambiguity |
+| Sub-skills communicate via structured blocks only | Prevents inter-sub-skill ambiguity. Note: this is a discipline convention, not a platform-enforced constraint — all sub-skills run in the same context window. The block protocol creates functional separation; contributors must enforce it manually. |
 
 ## Code of conduct
 

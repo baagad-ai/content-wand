@@ -18,7 +18,7 @@ refresh_after_days: 30
 ### Hard Constraints
 - **Character limit:** 280 per tweet (standard); 25,000 (X Premium long-form post)
 - **Thread length:** 3–10 tweets for most content (threads 3x engagement vs. single tweets)
-- **External links:** NON-PREMIUM ACCOUNTS: posting external links = near-zero median engagement since March 2026. Links suppressed 50–90% by algorithm. Link placement rule: put URL in a REPLY to tweet 1, NOT in the thread body.
+- **External links:** NON-PREMIUM ACCOUNTS: posting external links = near-zero median engagement (confirmed trend as of February 2026; approaching zero for non-Premium accounts). Links suppressed 50–90% by algorithm. Link placement rule: put URL in a REPLY to tweet 1, NOT in the thread body.
 - **Images/media:** Include when possible — media tweets outperform text-only
 
 ### Algorithm Signals (2026 — January Grok update)
@@ -31,6 +31,10 @@ refresh_after_days: 30
 - Recency: top-tier ranking signal — engagement window is hours, not days
 - Positive/constructive tone: boosted
 - Combative/negative tone: suppressed even with high engagement
+
+> **Data provenance note:** Algorithm weight multipliers (13.5x, 20x, 150x, etc.) are estimates from X developer community analysis and reverse-engineering (January 2026), not officially published by X Corp. These numbers are directional signals, not precision measurements. The ranking relationships (replies > retweets > bookmarks > likes) are consistently observed across independent analyses. The exact multipliers are approximate.
+
+> **Primary source rule:** These weights are included as practical guidance. If running the Step 2.7 freshness check, only update algorithm weight numbers when an official X developer blog post or official announcement explicitly states new values.
 
 ### Quality Heuristics
 - Tweet 1 must contain: curiosity gap, bold claim, or outcome-first hook

@@ -1,6 +1,7 @@
 ---
 name: platform-writer
 description: Use when content-wand needs to generate platform-native content from a ContentObject. Applies hard platform constraints and quality heuristics per format. Handles Twitter/X, LinkedIn, newsletter, Instagram carousel, YouTube Shorts, TikTok scripts, Threads posts, Bluesky posts, podcast talking points.
+user-invocable: false
 ---
 
 # platform-writer
@@ -35,6 +36,22 @@ Requires ALL of the following before starting:
 3. Either a `---VOICE-PROFILE-START---` block OR the literal string `VOICE-PROFILE: none`
 
 If any input is missing: STOP. Do not attempt generation. Return to orchestrator.
+
+---
+
+## Compliance Repair Mode
+
+If the orchestrator passes a `repair_guidance: [list of failures]` field alongside the input, this is a repair invocation — not a first-time generation.
+
+In repair mode:
+1. Read the `repair_guidance` list carefully — each item names a specific compliance failure
+2. Do NOT regenerate the content from scratch
+3. Modify only the aspects of the draft that caused the listed failures
+4. Re-run Pass 1 (compliance) on the modified draft
+5. If Pass 1 now passes: return the repaired output with `compliance: pass`
+6. If Pass 1 still fails: return `compliance: fail` with updated `compliance_failures` — the orchestrator will surface this to the user; do not attempt a second repair
+
+**Repair guidance is not creative direction.** Only fix the specific compliance failures listed. Do not interpret repair_guidance as an invitation to rewrite the content.
 
 ---
 
@@ -149,7 +166,7 @@ These are FAIL conditions — fix before outputting:
   - `1. 2. 3.` ordered lists with periods (signals AI; use prose or emoji lists)
 
 **Email newsletter:**
-- Subject line ≤ 50 characters
+- Subject line: 30–50 characters (minimum 30, maximum 50); maximum 7 words. A subject shorter than 30 characters is a compliance failure — too short for deliverability scanning and preview pane rendering.
 - Maximum 2 CTAs total (1 primary above fold, 1 repeat at end)
 - Single goal per email
 
@@ -274,7 +291,7 @@ content:
 ---PLATFORM-OUTPUT-END---
 ```
 
-After all platforms: save each to `content-output/YYYY-MM-DD-[content-slug]/[platform].md`
+**File saving is handled exclusively by the orchestrator (SKILL.md Step 5). Do NOT save files from this sub-skill.** Return all platform outputs as `---PLATFORM-OUTPUT---` blocks to the orchestrator and stop.
 
 ---
 

@@ -1,6 +1,8 @@
 ---
 name: content-wand
-description: "Transforms content between formats and platforms. Use when user says 'turn this into', 'repurpose this as', 'make this a', 'atomize this', or 'reformat for'. Creates Twitter/X threads, LinkedIn posts, email newsletters, Instagram carousels, YouTube Shorts scripts, TikTok scripts, Threads posts, Bluesky posts, podcast talking points from any source (pasted text, URL, transcript, rough notes, or topic idea). Also converts between content types: podcast→blog, thread→article, notes→newsletter, case study→template. Includes optional brand voice matching that learns writing style from samples and remembers it across sessions. Trigger keywords: repurpose, atomize, reformat, content repurposing, thread, carousel, newsletter, shorts script, brand voice, LinkedIn post, Twitter thread, TikTok script, content transformation, turn this into."
+description: "Transforms content between formats and platforms. Use when user says 'turn this into', 'repurpose this as', 'make this a', 'atomize this', or 'reformat for'. Creates Twitter/X threads, LinkedIn posts, email newsletters, Instagram carousels, YouTube Shorts scripts, TikTok scripts, Threads posts, Bluesky posts, podcast talking points from any source (pasted text, URL, transcript, rough notes, or topic idea). Also converts between content types: podcast→blog, thread→article, notes→newsletter, case study→template. Includes optional brand voice matching that learns writing style from samples and remembers it across sessions."
+argument-hint: "[paste text, URL, or describe a topic]"
+allowed-tools: [WebFetch, WebSearch, Read, Write]
 ---
 
 # content-wand
@@ -13,7 +15,7 @@ content-wand transforms any content into platform-native formats or converts bet
 
 **Decision sequence:** Classify request → Select platforms → Assess strategy fit → Check reference freshness → Ingest content → Generate → Deliver → Offer voice enhancement
 
-**Sub-skills are stateless.** Each sub-skill receives its full input in the handoff block and returns its full output in a structured block. Sub-skills do not share state. They do not communicate with each other. All routing flows through this orchestrator.
+**Sub-skill execution model:** Sub-skills are markdown files read into this session's context window. They are not isolated processes — they run sequentially in the same context. Pass data exclusively through structured blocks; never assume instructions from one sub-skill "carry over" to another. The block-based handoff protocol is what creates functional separation, not technical isolation.
 
 **Core principle:** Generate immediately. Never gate output behind setup. Brand voice is an optional enhancement offered after the first output.
 
@@ -109,7 +111,7 @@ Which formats do you want?
 
 ---
 
-## Content Strategy Check
+## STEP 2.5 — Content Strategy and Viability Check
 
 Before ingesting, assess platform-content fit. These are non-obvious strategy calls:
 
@@ -152,7 +154,7 @@ Ask: "If I could take only ONE thing from this source — what would make the ou
 
 ---
 
-## STEP 2.5 — Reference Freshness Check
+## STEP 2.7 — Reference Freshness Check
 
 Before ingesting content, verify platform specs are current:
 
@@ -216,6 +218,8 @@ Step C — Deliver both outputs in STEP 5, clearly labeled:
 Save repurposed output to `content-output/YYYY-MM-DD-[slug]/[target-type].md`; platform outputs to `content-output/YYYY-MM-DD-[slug]/[platform].md` as normal.
 Do NOT pipeline repurpose-transformer output into platform-writer — these are independent outputs from the same source.
 
+**Why platform formats use original content in BOTH mode:** The repurposed type-conversion (e.g., a blog post) and the platform formats are parallel deliverables from the same source, not a sequential pipeline. The blog post is already a complete transformation — Twitter thread from blog-post content would simply be a secondary transformation that the user did not explicitly request. If a user wants platform formats from the repurposed content, they should run ATOMIZE separately on the repurposed output.
+
 ---
 
 ## STEP 5 — Deliver First Output
@@ -223,7 +227,11 @@ Do NOT pipeline repurpose-transformer output into platform-writer — these are 
 Show all generated content inline (preview).
 
 **Save path:** `content-output/YYYY-MM-DD-[slug]/[platform].md`
-- If `content-output/YYYY-MM-DD-[slug]/` already exists: use `content-output/YYYY-MM-DD-[slug]-v2/` (increment until unique — never overwrite existing outputs)
+
+**Slug generation rules:** Derive slug from the first 4–5 significant words of the content title or topic. Apply: lowercase, spaces → hyphens, strip all characters that are not alphanumeric or hyphens. NEVER include path separators (`/`, `\`, `.`), `..`, or `~` in the slug. If the derived slug contains any of these after sanitization: use the literal slug `untitled` instead.
+Example: "Content Marketing Strategy for SaaS" → `content-marketing-strategy-saas`
+
+- If `content-output/YYYY-MM-DD-[slug]/` already exists: use `content-output/YYYY-MM-DD-[slug]-v2/`, incrementing from v2 to v9. If v9 already exists: emit "Maximum output versions reached for '[slug]'. Clear old output directories or change the slug." Do not overwrite and do not continue past v9.
 
 Emit: "Files saved to content-output/[date]-[slug]/"
 
@@ -316,8 +324,20 @@ After brand voice extraction:
   This ensures the profile is in active context for the platform-writer invocation.
 - **If READ mode ran (loading from saved file):** The `---VOICE-PROFILE-END---` block was returned by `brand-voice-extractor`. Pass it directly to `platform-writer`.
 
-Then:
+Then (by mode):
+
+**ATOMIZE path:**
 - Invoke `platform-writer` with: original `---CONTENT-OBJECT---` block + same platform list + `---VOICE-PROFILE---` block
+
+**REPURPOSE path:**
+- Re-invoke `repurpose-transformer` with: original `---CONTENT-OBJECT---` block + same `target_type` + `---VOICE-PROFILE---` block → receive `---TRANSFORMED-CONTENT---` block
+- If platform formats were also requested: invoke `platform-writer` with the `---TRANSFORMED-CONTENT---` block + same platform list + `---VOICE-PROFILE---` block
+
+**BOTH path:**
+- Re-invoke `repurpose-transformer` (same as REPURPOSE path above) for the type-conversion deliverable
+- Re-invoke `platform-writer` with original `---CONTENT-OBJECT---` block (NOT transformed) + same platform list + `---VOICE-PROFILE---` block
+- Save both outputs with `-voiced` suffix as normal
+
 - Deliver voice-matched versions inline
 - Save voice-matched versions to: `content-output/YYYY-MM-DD-[slug]-voiced/[platform].md`
   Do NOT overwrite the originals from Step 5. Emit:
@@ -359,7 +379,7 @@ Note: If you use git, add `.content-wand/` to your .gitignore to keep this priva
   warning: warn the user, then generate anyway unless the source is completely
   unusable (no POV, no content). Only that case gates generation.
 - NEVER invoke platform-writer with a missing CONTENT-OBJECT — return to Step 3
-- NEVER invoke repurpose-transformer and platform-writer in parallel — transformer output feeds writer input
+- NEVER invoke repurpose-transformer output as input to platform-writer (REPURPOSE mode only — transformer output feeds writer input). In BOTH mode, repurpose-transformer and platform-writer run independently from the same original content-object — this is intentional.
 - NEVER save files to content-output/ if compliance: fail — surface the failure to the user first
 - NEVER use platform-specs.md without running the Step 2.5 freshness check — stale specs silently produce non-compliant content
 - NEVER overwrite an existing content-output/ directory — use versioned directory names (-v2, -v3, etc.)
@@ -377,6 +397,8 @@ Note: If you use git, add `.content-wand/` to your .gitignore to keep this priva
 | Already a tweet thread | Trigger mode-detection question (Step 1) |
 | Corrupted `.content-wand/brand-voice.json` | Reject; offer to recreate; never proceed on corrupt data |
 | Topic-only input (no content) | content-ingester runs WebSearch; note sources used |
+| BOTH mode — repurpose-transformer fails, platform-writer not yet run | Surface failure: "Type conversion to [target] failed. Platform formats were not generated. Want to: → Retry conversion | → Skip conversion, generate platform formats only | → Review source content" |
+| BOTH mode — platform-writer fails after successful transformer | Surface failure: "Platform formats failed compliance. The repurposed [target] was saved to [dir]. Want to fix and regenerate platform formats? → Yes / → Skip platforms" |
 | User changes mode mid-flow | If any outputs were already saved: emit "Partial outputs from previous run saved at [dir] — those files are preserved." Then stop current generation, re-run mode detection from Step 1, re-use same CONTENT-OBJECT (skip Step 3). |
 | Same content processed twice same day | Detect existing output directory; use -v2 suffix; notify: "Previous output preserved at [dir], new output at [dir-v2]" |
 
@@ -384,7 +406,7 @@ Note: If you use git, add `.content-wand/` to your .gitignore to keep this priva
 
 ## Sub-Skill Handoff Reference
 
-**How to invoke a sub-skill**: Load the named sub-skill's SKILL.md and follow its instructions exactly. When it completes, its output block is returned to the orchestrator — not to other sub-skills. Sub-skills never communicate directly with each other; all routing goes through this orchestrator.
+**How to execute a sub-skill**: Use the Read tool to load the named sub-skill's SKILL.md, then follow its instructions exactly. Sub-skills are read sequentially into the same context — all routing flows through this orchestrator via structured block handoffs. When a sub-skill completes, its output block is returned to the orchestrator — not to other sub-skills. Sub-skills never communicate directly with each other.
 
 All sub-skills communicate via structured blocks. Never interpret prose as handoff.
 
