@@ -5,6 +5,58 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.1.0] — 2026-02-19
+
+### Added
+
+- **`writing-style-extractor-SKILL.md`** — replaces `brand-voice-extractor-SKILL.md` with a full UX overhaul:
+  - Agency/client fork at the start of every SETUP session — all interview questions adapt to the brand or client
+  - 3 required + 2 optional questions (down from 5 required); progress indicators on each question
+  - Session context anchoring — interview references the platform and content type you're generating right now
+  - Style naming derived from user's own Q2+Q3 words, not abstract metaphors
+  - Plain-language messages throughout — no JSON, schema, or file path jargon exposed to users
+- **`humanizer-SKILL.md`** — new final-pass sub-skill that runs after every generation, no exceptions:
+  - 3-pass system: lexical scrub → structural rewrites → voice application
+  - Research-backed pattern library (FSU/Max Planck arxiv:2412.11385, GPTZero vocabulary research, Wikipedia Signs of AI Writing guide, MDPI stylometric research 2025)
+  - Platform-specific rules: Twitter bans em dashes and forced formality; LinkedIn bans inspirational closers; TikTok uses spoken rhythm
+- **`references/ai-patterns.md`** — comprehensive AI writing pattern reference loaded by the humanizer:
+  - Tier 1 banned words/phrases (80+) with context-aware exceptions
+  - Tier 2 contextual words for judgment-based replacement
+  - Filler phrase deletion rules
+  - Opening/closing cliché removal
+  - Structural pattern fixes: em dash overuse, rule-of-threes, significance signposting, forced balance, uniform sentence length, passive voice detachment, bullet obsession
+  - Tonal marker fixes: false intimacy, excessive positivity, corporate inspirational tone
+  - Full substitution quick-reference table
+- **Writing Style management commands** in orchestrator: list, create, update, delete, rename, inspect styles — triggered by natural language ("show my writing styles", "delete my [name] style")
+- **Global Writing Style storage** — styles now saved to `~/.claude/content-wand/styles/` with a `config.json` index; no per-project setup required
+
+### Changed
+
+- **Writing Style** (formerly "brand voice") — terminology updated throughout:
+  - All user-facing messages use "Writing Style" — no "brand voice", "profile", or "voice DNA"
+  - First-time users offered setup **before** generation (was: after delivery); first output can have style applied from day one
+  - Single saved style: auto-applied silently with one-line confirmation
+  - Multiple saved styles: smart suggestion with rationale shown, user confirms or picks
+  - 30-day declined state in `config.json` — users who skip are not prompted again for 30 days
+  - Interview: 3 required + 2 optional questions; each question includes why it's being asked
+- **Schema v1.2** — `references/brandvoice-schema.md` updated:
+  - Added `style_name`, `style_for` (own|client), `client_name` fields
+  - Updated file location to `~/.claude/content-wand/styles/[name].json`
+  - `config.json` structure documented
+  - Migration path from old `.content-wand/brand-voice.json` files
+  - All user-facing rejection messages use plain language only
+- **SKILL.md** pipeline:
+  - STEP 0 added: checks Writing Style state before anything else
+  - STEP 1.5 added: Writing Style offer/apply/skip logic
+  - STEP 4.5 added: humanizer invocation between generation and delivery
+  - STEP 5: one-time nudge at bottom of output only for first-time skippers (not for declined users)
+  - STEP 6: simplified to staleness refresh only
+  - STEP 7: updated save path and config.json management
+
+### Removed
+
+- **`brand-voice-extractor-SKILL.md`** — replaced by `writing-style-extractor-SKILL.md`
+
 ## [1.0.1] — 2026-02-18
 
 ### Security
@@ -61,6 +113,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Pre-transformation check: repurpose-transformer validates a repurposable core concept exists before any work begins
 - VOICE-PROFILE block re-emitted verbatim by orchestrator to ensure downstream sub-skills receive it even in long sessions
 
-[Unreleased]: https://github.com/baagad-ai/content-wand/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/baagad-ai/content-wand/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/baagad-ai/content-wand/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/baagad-ai/content-wand/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/baagad-ai/content-wand/releases/tag/v1.0.0

@@ -1,7 +1,7 @@
 {
   "name": "content-wand",
-  "version": "1.0.1",
-  "description": "Transform any content into 9 platform-native formats or convert between content types — with optional brand voice matching. Supports Twitter/X, LinkedIn, newsletter, Instagram, YouTube Shorts, TikTok, Threads, Bluesky, and podcast. Works from text, URLs, transcripts, rough notes, or a topic idea. Secure-by-default with prompt injection defenses.",
+  "version": "1.1.0",
+  "description": "Transform any content into 9 platform-native formats or convert between content types — with Writing Style matching and an AI-pattern humanizer on every output. Supports Twitter/X, LinkedIn, newsletter, Instagram, YouTube Shorts, TikTok, Threads, Bluesky, and podcast. Works from text, URLs, transcripts, rough notes, or a topic idea. Writing Styles save globally and apply automatically across all projects.",
   "type": "skill",
   "author": "Prajwal Mishra",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "ai",
     "content-repurposing",
     "content-atomization",
-    "brand-voice",
+    "writing-style",
     "twitter-thread",
     "linkedin-post",
     "newsletter",
@@ -18,8 +18,11 @@
     "tiktok",
     "podcast",
     "content-transformation",
+    "humanizer",
+    "ai-pattern-removal",
     "solopreneur",
     "creator",
+    "ghostwriter",
     "claude-skill",
     "prompt-injection-defense",
     "ai-security",
@@ -36,8 +39,8 @@
   "skills": {
     "content-wand": {
       "name": "content-wand",
-      "description": "Turn any content into platform-native formats or transform between content types. Atomize (1 piece → 6 platforms) or repurpose (type A → type B). Optional brand voice matching. Works with text, URLs, transcripts, notes, or a topic idea. Includes injection detection for safe URL and web content processing.",
-      "version": "1.0.1"
+      "description": "Turn any content into platform-native formats or transform between content types. Atomize (1 piece → 9 platforms) or repurpose (type A → type B). Writing Style matching learned once, applied automatically everywhere. Humanizer removes AI writing patterns from every output. Works with text, URLs, transcripts, notes, or a topic idea.",
+      "version": "1.1.0"
     }
   }
 }

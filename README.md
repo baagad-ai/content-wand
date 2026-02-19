@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-> A Claude skill that turns any content into platform-ready posts — or transforms it between formats — with optional brand voice matching.
+> A Claude skill that turns any content into platform-ready posts — or transforms it between formats — with Writing Style matching and an AI-pattern humanizer that runs on every output.
 
 You paste a blog post, drop a URL, or say "write about X." content-wand outputs platform-native content for up to 9 platforms. Each output passes a two-pass check: hard constraints first (character limits, link rules, format requirements), quality heuristics second (hook strength, CTA clarity, engagement design). It never guesses at your platform specs — they're kept current and loaded fresh each run.
 
@@ -160,26 +160,42 @@ Platform specs include current algorithm signals (engagement weighting, reach pe
 
 Solo creators, indie makers, and developer-writers who publish regularly across platforms. If you're writing blog posts, threads, newsletters, and scripts yourself — and spending more time reformatting than writing — this is for you.
 
+Also works for agencies and ghostwriters who create content for clients. The Writing Style interview has a fork for capturing someone else's voice — all questions adapt to the brand or client instead of you personally.
+
 If you have a content team with a CMS and a scheduling tool, you probably want something with a dashboard.
 
 ---
 
-## Brand voice (optional)
+## Writing Style
 
-After your first output, content-wand can learn your writing style — and remember it across every session, every platform. The same brief that produces neutral copy without a profile produces output that sounds distinctly like you with one.
+content-wand learns how you write — once — and applies it automatically from then on. The same brief that produces neutral output without a style produces output that sounds like you wrote it with one.
 
-First run always generates in a clean, neutral voice. After delivery, content-wand offers to set up your profile.
+**First-time users** are offered Writing Style setup before generation, not after. One-time setup (~3 minutes), remembered forever.
 
-A 5-question interview takes ~5 minutes. Question 1 — writing samples — carries 70% of the profile weight. Confidence scores as HIGH (≥3,000 sample words across ≥2 content types), MED, or LOW (<1,500 words). Low-confidence profiles are flagged and applied conservatively.
+**Returning users** have their style applied automatically. Single saved style: silent auto-apply. Multiple saved styles: smart suggestion with rationale shown, you confirm or pick.
 
-The profile saves to `.content-wand/brand-voice.json` in your project. It stores extracted patterns only — tone axes, sentence style, vocabulary level, opening patterns, structural patterns, and platform-specific notes. Never your raw writing, fetched URLs, or personal data.
+**Multiple styles** — create as many as you need. Writing for yourself, for a client, for a brand? Each gets its own named style. Names come from your own words, not abstract labels.
 
-To reset: delete `.content-wand/brand-voice.json`.
+A 3-question interview (2 optional extras) captures your style. Writing samples carry 70% of the weight. Confidence scores as HIGH (≥3,000 sample words across ≥2 content types), MED, or LOW. Low-confidence profiles are flagged.
 
-Add to your project's `.gitignore`:
-```
-.content-wand/
-```
+Styles save globally to `~/.claude/content-wand/styles/` — they work across every project automatically. No per-project setup.
+
+To manage: say "show my writing styles", "update my [name] style", or "delete my [name] style".
+
+---
+
+## Humanizer
+
+Every output — with or without a Writing Style — passes through a humanizer before delivery. It removes detectable AI writing patterns using a research-backed pattern library (FSU/Max Planck, GPTZero, Wikipedia's AI writing guide).
+
+Three passes:
+1. **Lexical scrub** — replaces 80+ AI-flagged words and phrases (leverage, pivotal, tapestry, seamless, it's worth noting...)
+2. **Structural rewrites** — fixes em dash overuse, rule-of-threes syndrome, significance signposting, forced balanced arguments, uniform sentence length, passive voice detachment
+3. **Voice application** — if a Writing Style is active, shapes the cleaned output to match your documented patterns
+
+Platform-specific rules apply last: Twitter gets no em dashes and forced contractions; LinkedIn loses the inspirational closers; TikTok scripts use spoken rhythm instead of written grammar.
+
+After delivery: *"Cleaned N AI writing patterns."* Ask "what did you change?" for a breakdown.
 
 ---
 
@@ -227,19 +243,21 @@ You can also just describe intent directly to Claude:
 
 ## How it works
 
-content-wand is an orchestrated Claude skill — one entry point, four specialized sub-skills, two reference files:
+content-wand is an orchestrated Claude skill — one entry point, five specialized sub-skills, three reference files:
 
 ```
 content-wand (SKILL.md)
 │
-├── content-ingester          Classifies input, fetches URLs, runs WebSearch for topics
-├── brand-voice-extractor     Reads or builds voice profile; flags low-confidence
-├── repurpose-transformer     Classifies transformation distance; applies DIRECT/COMPRESS/EXPAND/STRUCTURAL logic
-├── platform-writer           Generates output; 2-pass validation per platform
+├── content-ingester           Classifies input, fetches URLs, runs WebSearch for topics
+├── writing-style-extractor    Reads or captures Writing Style; contextual interview; named styles
+├── repurpose-transformer      Classifies transformation distance; DIRECT/COMPRESS/EXPAND/STRUCTURAL logic
+├── platform-writer            Generates output; 2-pass validation per platform
+├── humanizer                  Final pass: removes AI patterns; applies Writing Style shaping
 │
 └── references/
-    ├── platform-specs.md     Hard constraints + algorithm signals, 9 platforms, Feb 2026
-    ├── brandvoice-schema.md  Brand voice JSON schema + validation rules + migration rules
+    ├── platform-specs.md      Hard constraints + algorithm signals, 9 platforms, Feb 2026
+    ├── brandvoice-schema.md   Writing Style JSON schema v1.2 + validation + migration rules
+    ├── ai-patterns.md         AI writing pattern library for humanizer (80+ patterns, 7 categories)
     └── platform-writer-guide.md  Hook framework + quality anti-patterns
 ```
 
@@ -249,7 +267,11 @@ content-wand (SKILL.md)
 
 - **Platform specs load once, not per-platform.** In a 9-platform ATOMIZE run, re-reading spec constraints for each platform wastes context. Specs are read once before the generation loop and held in active context for all platforms.
 
-- **Brand voice is never a gate.** The first output always runs without a voice profile. Setup is offered after delivery, never before. Gating content behind an interview would make first-time use feel like homework.
+- **Writing Style is offered before generation, not after.** First-time users get one clear offer before any output is produced. The first output they see has their voice in it, not a generic draft. Returning users have their style applied silently. The setup-after-delivery pattern from v1.0 caused first-timers to form a negative first impression before being offered the improvement.
+
+- **Writing Style is global, not project-scoped.** Styles live at `~/.claude/content-wand/styles/` — they work in every project, every session. The old `.content-wand/brand-voice.json` pattern required re-setup per project.
+
+- **The humanizer always runs.** Every output passes through AI pattern removal before delivery, regardless of whether a Writing Style is active. Output that passes hard compliance checks can still read as obviously AI-generated — the humanizer closes that gap using a research-backed pattern library.
 
 - **Sub-skills communicate via structured delimiter blocks** (`---BLOCK-NAME-START---`), not prose. If there's no delimiter, it's not a handoff — this prevents output from one sub-skill being misread as input instructions by the next.
 
@@ -263,13 +285,15 @@ content-wand (SKILL.md)
 
 | File | Purpose |
 |------|---------|
-| `SKILL.md` | Orchestrator — entry point, mode detection, routing |
+| `SKILL.md` | Orchestrator — entry point, mode detection, routing, Writing Style state |
 | `content-ingester-SKILL.md` | Input classification + URL fetch + topic research |
-| `brand-voice-extractor-SKILL.md` | Voice profile read/write/interview |
+| `writing-style-extractor-SKILL.md` | Writing Style read/capture; contextual interview; named styles |
 | `platform-writer-SKILL.md` | Platform-native generation with 2-pass validation |
 | `repurpose-transformer-SKILL.md` | Type-to-type transformation with distance classification |
+| `humanizer-SKILL.md` | Final-pass AI pattern removal — lexical, structural, voice shaping |
 | `references/platform-specs.md` | Platform constraints + algorithm signals (Feb 2026) |
-| `references/brandvoice-schema.md` | Brand voice JSON schema + validation rules |
+| `references/brandvoice-schema.md` | Writing Style JSON schema v1.2 + validation + migration |
+| `references/ai-patterns.md` | AI writing pattern library — 80+ patterns across 7 categories |
 | `references/platform-writer-guide.md` | Hook framework + pre-generation checks |
 
 ---
