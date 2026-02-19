@@ -1,24 +1,57 @@
 # content-wand
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/github/v/release/baagad-ai/content-wand)](https://github.com/baagad-ai/content-wand/releases/latest) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-> A Claude skill that turns any content into platform-ready posts — or transforms it between formats — with Writing Style matching and an AI-pattern humanizer that runs on every output.
+> Turn any content into platform-ready posts — or transform it between formats — with Writing Style matching and AI-pattern removal on every output.
 
-You paste a blog post, drop a URL, or say "write about X." content-wand outputs platform-native content for up to 9 platforms. Each output passes a two-pass validation check: hard constraints first (character limits, link rules, format requirements), quality heuristics second (hook strength, CTA clarity, engagement design). Then a humanizer runs a final pass on every output to strip AI writing patterns before delivery. It never guesses at your platform specs — they're kept current and loaded fresh each run.
+---
+
+## Install
+
+```bash
+npx skills add baagad-ai/content-wand
+```
+
+Works with Claude Code, Codex, Gemini CLI, GitHub Copilot, and more. No dependencies, no build step.
+
+---
+
+## Use
+
+```
+/content-wand [paste content, URL, or describe a topic]
+```
+
+Natural language works — just describe what you want:
+
+```
+/content-wand atomize this article for Twitter and LinkedIn: [paste]
+
+/content-wand https://example.com/article → newsletter and podcast notes
+
+/content-wand repurpose this transcript into a blog post: [paste]
+
+/content-wand write about "why most productivity systems fail" → TikTok script
+```
+
+Or skip the slash command and talk to Claude directly:
+
+> "Turn this podcast transcript into a Twitter thread and email newsletter"
+> "Take my rough notes and make a LinkedIn post"
 
 ---
 
 ## Two modes
 
-**ATOMIZE** — One input, multiple platform outputs.
+**Atomize** — one piece of content → multiple platform formats at once.
 
 ```
 blog post → Twitter/X thread + LinkedIn post + Email newsletter
-           + Instagram carousel + YouTube Shorts script + Podcast talking points
-           + TikTok script + Threads post + Bluesky post
+           + Instagram carousel + YouTube Shorts + TikTok script
+           + Threads post + Bluesky post + Podcast talking points
 ```
 
-**REPURPOSE** — Transform between content types.
+**Repurpose** — transform between content types.
 
 ```
 Podcast transcript   → Blog post
@@ -28,8 +61,6 @@ Blog post            → Email course
 Case study           → Template
 Interview transcript → Twitter thread
 ```
-
-REPURPOSE classifies transformation distance before writing: same-length restructure (DIRECT), long-to-short with idea selection (COMPRESS), short-to-long with structured expansion (EXPAND), or full type change (STRUCTURAL). Each gets different logic.
 
 ---
 
@@ -122,15 +153,11 @@ shouldn't be there?
 
 ---
 
-Both outputs pass compliance. The thread stays within 280 characters per tweet with no links in the body. The LinkedIn post uses no Markdown formatting and the hook lands within the first 210 characters.
-
----
-
 ## 9 platforms
 
 | Platform | What you get | Key constraint |
 |----------|-------------|----------------|
-| Twitter/X | Full thread — hook tweet + 4–8 body tweets | 280 chars/tweet; external links go in reply, not body |
+| Twitter/X | Full thread — hook tweet + 4–8 body tweets | 280 chars/tweet; links go in reply, not body |
 | LinkedIn | Long-form post with structured line breaks | 3,000 chars; no Markdown rendering; hook in first 210 chars |
 | Email newsletter | Subject line + full issue body | Subject ≤50 chars; single goal per email; max 2 CTAs |
 | Instagram | Carousel script — slide-by-slide text + CTA | 3–20 slides; slide 1 = scroll-stopping hook |
@@ -146,23 +173,13 @@ Platform specs include current algorithm signals (engagement weighting, reach pe
 
 ## Works with any input
 
-| Input | Example | What happens |
-|-------|---------|-------------|
-| Pasted text | Blog post, essay, rough draft | Classified and processed directly |
-| URL | Article, tweet, landing page | Fetched, extracted, classified |
-| Transcript | Podcast, video, interview recording | Re-ordered from non-linear structure; key themes extracted |
-| Notes | Bullet points, fragments, braindump | Core concept identified; gaps surfaced if too sparse |
-| Topic | "why cold email open rates are falling" | 3–5 WebSearch queries run; content synthesized |
-
----
-
-## Built for
-
-Solo creators, indie makers, and developer-writers who publish regularly across platforms. If you're writing blog posts, threads, newsletters, and scripts yourself — and spending more time reformatting than writing — this is for you.
-
-Also works for agencies and ghostwriters who create content for clients. The Writing Style interview has a fork for capturing someone else's voice — all questions adapt to the brand or client instead of you personally.
-
-If you have a content team with a CMS and a scheduling tool, you probably want something with a dashboard.
+| Input | What happens |
+|-------|-------------|
+| Pasted text | Classified and processed directly |
+| URL | Fetched, extracted, classified |
+| Transcript | Re-ordered from non-linear structure; key themes extracted |
+| Notes | Core concept identified; gaps surfaced if too sparse |
+| Topic | 3–5 web searches run; content synthesized from results |
 
 ---
 
@@ -178,7 +195,7 @@ content-wand learns how you write — once — and applies it automatically from
 
 A 3-question interview (2 optional extras) captures your style. Writing samples carry 70% of the weight. Confidence scores as HIGH (≥3,000 sample words across ≥2 content types), MED, or LOW. Low-confidence styles are flagged.
 
-Styles save globally to `~/.claude/content-wand/styles/` — they work across every project automatically. No per-project setup.
+Styles work across every project automatically — no per-project setup.
 
 To manage: say "show my writing styles", "update my [name] style", or "delete my [name] style".
 
@@ -189,9 +206,10 @@ To manage: say "show my writing styles", "update my [name] style", or "delete my
 Every output — with or without a Writing Style — passes through a humanizer before delivery. It removes detectable AI writing patterns using a research-backed pattern library (FSU/Max Planck, GPTZero, Wikipedia's AI writing guide).
 
 Three passes:
+
 1. **Lexical scrub** — replaces 80+ AI-flagged words and phrases (leverage, pivotal, tapestry, seamless, it's worth noting...)
 2. **Structural rewrites** — fixes em dash overuse, rule-of-threes syndrome, significance signposting, forced balanced arguments, uniform sentence length, passive voice detachment
-3. **Voice application** — if a Writing Style is active, shapes the cleaned output to match your documented patterns
+3. **Writing Style shaping** — if a style is active, shapes the cleaned output to match your documented patterns
 
 Platform-specific rules apply last: Twitter gets no em dashes and forced contractions; LinkedIn loses the inspirational closers; TikTok scripts use spoken rhythm instead of written grammar.
 
@@ -199,117 +217,20 @@ After delivery: *"Cleaned N AI writing patterns."* Ask "what did you change?" fo
 
 ---
 
-## Installation
+## Who it's for
 
-```bash
-# Claude Code
-git clone https://github.com/baagad-ai/content-wand ~/.claude/skills/content-wand
+Solo creators, indie makers, and developer-writers who publish regularly across platforms. If you're writing blog posts, threads, newsletters, and scripts yourself — and spending more time reformatting than writing — this is for you.
 
-# Codex CLI
-git clone https://github.com/baagad-ai/content-wand ~/.codex/skills/content-wand
-```
+Also works for agencies and ghostwriters who create content for clients. The Writing Style interview has a fork for capturing someone else's voice — all questions adapt to the brand or client instead of you personally.
 
-No dependencies. No build step. Clone and use.
-
----
-
-## Usage
-
-```
-/content-wand [content, URL, or description]
-```
-
-Works with natural language — describe what you want:
-
-```
-/content-wand atomize this article for Twitter and LinkedIn: [paste]
-
-/content-wand https://example.com/article → newsletter and podcast notes
-
-/content-wand repurpose this transcript into a blog post: [paste]
-
-/content-wand write about "why most productivity systems fail" → TikTok script
-
-/content-wand turn my rough notes into a LinkedIn post: [paste]
-```
-
-You can also just describe intent directly to Claude:
-
-> "Turn this podcast transcript into a Twitter thread and email newsletter"
-> "Take my rough notes and make a LinkedIn post"
-> "Repurpose this YouTube transcript into a blog post and TikTok script"
-
----
-
-## How it works
-
-content-wand is an orchestrated Claude skill — one entry point, five specialized sub-skills, four reference files:
-
-```
-content-wand (SKILL.md)
-│
-├── content-ingester           Classifies input, fetches URLs, runs WebSearch for topics
-├── writing-style-extractor    Reads or captures Writing Style; contextual interview; named styles
-├── repurpose-transformer      Classifies transformation distance; DIRECT/COMPRESS/EXPAND/STRUCTURAL logic
-├── platform-writer            Generates output; 2-pass validation per platform
-├── humanizer                  Final pass: removes AI patterns; applies Writing Style shaping
-│
-└── references/
-    ├── platform-specs.md      Hard constraints + algorithm signals, 9 platforms, Feb 2026
-    ├── brandvoice-schema.md   Writing Style JSON schema v1.2 + validation + migration rules
-    ├── ai-patterns.md         AI writing pattern library for humanizer (80+ patterns, 7 categories)
-    └── platform-writer-guide.md  Hook framework + quality anti-patterns
-```
-
-**Design decisions worth knowing:**
-
-- **Routing loads first, not last.** All mode detection and routing logic appears in the first 50 lines of SKILL.md. LLMs follow mid-document instructions less reliably than early-document ones — a documented failure mode for long prompts ("Lost in the Middle" — MIT/TACL 2024). Position is architecture.
-
-- **Platform specs load once, not per-platform.** In a 9-platform ATOMIZE run, re-reading spec constraints for each platform wastes context. Specs are read once before the generation loop and held in active context for all platforms.
-
-- **Writing Style is offered before generation, not after.** First-time users get one clear offer before any output is produced. The first output they see has their voice in it, not a generic draft. Returning users have their style applied silently. The setup-after-delivery pattern from v1.0 caused first-timers to form a negative first impression before being offered the improvement.
-
-- **Writing Style is global, not project-scoped.** Styles live at `~/.claude/content-wand/styles/` — they work in every project, every session. The old `.content-wand/brand-voice.json` pattern required re-setup per project.
-
-- **The humanizer always runs.** Every output passes through AI pattern removal before delivery, regardless of whether a Writing Style is active. Output that passes hard compliance checks can still read as obviously AI-generated — the humanizer closes that gap using a research-backed pattern library.
-
-- **Sub-skills communicate via structured delimiter blocks** (`---BLOCK-NAME-START---`), not prose. If there's no delimiter, it's not a handoff — this prevents output from one sub-skill being misread as input instructions by the next.
-
-- **NOT contracts name rationalizations, not just prohibitions.** Instead of "don't do X," each NOT contract names the specific excuse the model might use to justify doing X anyway — making it much harder to rationalize around the rule.
-
-- **Two-pass validation per platform.** Pass 1 checks hard constraints (character limits, link placement rules, format requirements) — these are `compliance: fail` conditions that block saving. Pass 2 checks quality heuristics (hook strength, CTA clarity, engagement design) — these are `quality_flags` warnings, self-corrected silently where possible.
-
----
-
-## Files in this repo
-
-| File | Purpose |
-|------|---------|
-| `SKILL.md` | Orchestrator — entry point, mode detection, routing, Writing Style state |
-| `content-ingester-SKILL.md` | Input classification + URL fetch + topic research |
-| `writing-style-extractor-SKILL.md` | Writing Style read/capture; contextual interview; named styles |
-| `platform-writer-SKILL.md` | Platform-native generation with 2-pass validation |
-| `repurpose-transformer-SKILL.md` | Type-to-type transformation with distance classification |
-| `humanizer-SKILL.md` | Final-pass AI pattern removal — lexical, structural, Writing Style shaping |
-| `references/platform-specs.md` | Platform constraints + algorithm signals (Feb 2026) |
-| `references/brandvoice-schema.md` | Writing Style JSON schema v1.2 + validation + migration |
-| `references/ai-patterns.md` | AI writing pattern library — 80+ patterns across 7 categories |
-| `references/platform-writer-guide.md` | Hook framework + pre-generation checks |
+If you have a content team with a CMS and a scheduling tool, you probably want something with a dashboard.
 
 ---
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) — platform spec updates, new platform support, edge case handling, and NOT contract improvements are all welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for the skill file conventions before opening a PR.
+See [CONTRIBUTING.md](CONTRIBUTING.md) — platform spec updates, new platform support, edge case handling, and humanizer pattern improvements are all welcome. Read the conventions before opening a PR.
 
 ---
 
-## Author
-
-Prajwal Mishra — [@baagad_ai](https://x.com/baagad_ai)
-
----
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+Prajwal Mishra — [@baagad_ai](https://x.com/baagad_ai) · [MIT License](LICENSE)
