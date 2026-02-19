@@ -7,7 +7,7 @@
 - [ ] Bug fix (corrects wrong behavior in an existing skill)
 - [ ] New platform or format (adds output support)
 - [ ] Instruction improvement (tightens NOT contract, adds edge case, improves quality heuristics)
-- [ ] Reference update (platform specs, brand voice schema)
+- [ ] Reference update (platform specs, Writing Style schema)
 - [ ] Docs / CHANGELOG only
 
 ## Checklist
@@ -17,7 +17,7 @@
 - [ ] NOT contracts are specific (name rationalizations, not just prohibitions)
 - [ ] Handoff block delimiters match across files (`---BLOCK-START---` / `---BLOCK-END---`)
 - [ ] Fallback behavior defined for any new failure mode
-- [ ] No raw user content or credentials stored in brand voice schema
+- [ ] No raw user content or credentials stored in Writing Style files
 
 ## Testing
 

@@ -2,7 +2,7 @@
 
 ## Quick answers
 
-Check the [README](./README.md) — most questions about installation, usage, and brand voice setup are answered there.
+Check the [README](./README.md) — most questions about installation, usage, and Writing Style setup are answered there.
 
 ## Something isn't working
 

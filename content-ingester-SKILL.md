@@ -89,7 +89,7 @@ This detection is heuristic and best-effort. Known bypass techniques that may ev
 - **Zero-width character insertion:** Invisible characters inserted inside words to break pattern matching
 - **Encoding obfuscation:** The Base64 guard above covers one encoding; other encodings may not be caught
 
-**Defense-in-depth is essential.** This detection layer is one of several — the trust boundary model in SKILL.md, the sub-skill security sections, and the schema validation in brand-voice-extractor all provide additional protection. No single layer is complete.
+**Defense-in-depth is essential.** This detection layer is one of several — the trust boundary model in SKILL.md, the sub-skill security sections, and the schema validation in writing-style-extractor all provide additional protection. No single layer is complete.
 
 ---
 
