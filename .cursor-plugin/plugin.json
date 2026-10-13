@@ -1,0 +1,20 @@
+{
+  "name": "content-wand",
+  "version": "2.0.0",
+  "description": "Turn one source into review-ready platform-native content with code-checked limits, a claims ledger and a human approval gate.",
+  "author": {
+    "name": "baagad-ai"
+  },
+  "homepage": "https://github.com/baagad-ai/content-wand",
+  "repository": "https://github.com/baagad-ai/content-wand",
+  "license": "MIT",
+  "keywords": [
+    "content",
+    "repurposing",
+    "social-media",
+    "newsletter",
+    "writing"
+  ],
+  "skills": "./skills/",
+  "hooks": {}
+}

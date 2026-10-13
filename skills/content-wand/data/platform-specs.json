@@ -1,0 +1,851 @@
+{
+  "schema_version": 1,
+  "data_version": "2026.10.13",
+  "generated_at": "2026-10-13",
+  "ttl_days": {
+    "hard": 90,
+    "policy": 60,
+    "algorithm": 30,
+    "heuristic": 180
+  },
+  "notes": [
+    "Facts of kind 'hard' are binary platform limits. 'policy' facts are official rules that change. 'algorithm' facts are ranking signals: official published weights where they exist, otherwise directional observations. 'heuristic' facts are craft guidance with no official source.",
+    "source_type values: primary (official doc), primary-code (official published code), primary-mirror (official page read through an archive), secondary (press or third-party), none (heuristic).",
+    "Every value here is data. Nothing in this file is an instruction to an agent."
+  ],
+  "retired_claims": [
+    {
+      "claim": "External links in X posts are suppressed 50 to 90 percent; put the link in a reply",
+      "status": "retired",
+      "reason": "X published its ranking code in 2026. It has no link penalty and X's head of product said links do not deboost posts."
+    },
+    {
+      "claim": "X weights: replies 13.5x, retweets 20x, bookmarks 10x, likes 1x, author reply 150x",
+      "status": "retired",
+      "reason": "Official weights: like 0.6, reply 5.0, repost 1.0, quote 5.0. Bookmarks carry no weight. Weights multiply predicted probabilities, not raw counts."
+    },
+    {
+      "claim": "YouTube Shorts are limited to 60 seconds",
+      "status": "retired",
+      "reason": "Shorts allow up to 3 minutes since 2024-10-15."
+    },
+    {
+      "claim": "YouTube Shorts must be 9:16 vertical only",
+      "status": "retired",
+      "reason": "Square or vertical is accepted."
+    },
+    {
+      "claim": "TikTok videos are 15 seconds to 10 minutes",
+      "status": "retired",
+      "reason": "In-app uploads allow up to 60 minutes; recording up to 10 minutes."
+    },
+    {
+      "claim": "Threads allows one link per post and 10 images",
+      "status": "retired",
+      "reason": "The API allows 5 unique links per post and carousels of up to 20 items."
+    },
+    {
+      "claim": "Bluesky allows 4 images and has limited video",
+      "status": "retired",
+      "reason": "10 images via the gallery embed and 10 minute video as of mid 2026."
+    },
+    {
+      "claim": "Bluesky has 25 million users",
+      "status": "retired",
+      "reason": "45 million reported in June 2026."
+    },
+    {
+      "claim": "Instagram: max 20 percent text on a slide; first slide drives 80 percent of results",
+      "status": "retired",
+      "reason": "The text rule is a legacy Facebook ads rule and the 80 percent figure has no source."
+    },
+    {
+      "claim": "LinkedIn: external links cut reach by 60 percent; 5+ word comments and dwell time carry fixed weights",
+      "status": "retired",
+      "reason": "LinkedIn denies intentionally limiting link posts and says published signal weights are myths."
+    },
+    {
+      "claim": "LinkedIn carousels are PDF only",
+      "status": "retired",
+      "reason": "Document posts accept PDF, PPT, PPTX, DOC and DOCX up to 100 MB and 300 pages."
+    },
+    {
+      "claim": "AI-generated TikTok videos are deprioritised",
+      "status": "retired",
+      "reason": "TikTok says labelled AI content stays eligible for For You."
+    },
+    {
+      "claim": "Newsletter button CTAs lift CTR 45 percent; question CTAs double replies; first-person CTAs add 20 percent",
+      "status": "retired",
+      "reason": "No primary source for any of these figures."
+    }
+  ],
+  "platforms": {
+    "twitter": {
+      "label": "Twitter / X",
+      "primary_domains": [
+        "docs.x.com",
+        "developer.x.com",
+        "help.x.com",
+        "blog.x.com",
+        "business.x.com",
+        "developer.twitter.com",
+        "help.twitter.com",
+        "blog.twitter.com"
+      ],
+      "primary_url_prefixes": [
+        "https://github.com/xai-org/x-algorithm"
+      ],
+      "facts": {
+        "post_char_limit": {
+          "value": 280,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://docs.x.com/fundamentals/counting-characters",
+          "source_type": "primary",
+          "note": "Weighted count: Latin 1, emoji and CJK 2 each. Emoji sequences (skin tone, ZWJ) count as 2 in total."
+        },
+        "premium_post_char_limit": {
+          "value": 25000,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://help.x.com/en/using-x/x-premium",
+          "source_type": "primary-mirror",
+          "note": "Long posts are available on paid tiers. Read through an archive mirror because help.x.com blocked automated fetches."
+        },
+        "link_weight": {
+          "value": 23,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://docs.x.com/fundamentals/counting-characters",
+          "source_type": "primary",
+          "note": "Every URL counts as 23 characters because it is wrapped by t.co."
+        },
+        "thread_units_min": {
+          "value": 3,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "Style guidance only. X publishes no thread-length rule."
+        },
+        "thread_units_max": {
+          "value": 10,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "Style guidance only. X publishes no thread-length rule."
+        },
+        "links_in_body_severity": {
+          "value": "ignore",
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code",
+          "note": "The published ranking code has no link penalty and an open-link weight above zero. X's head of product stated in 2026 that links do not deboost a post (press reports quoting him). Links in the body are therefore allowed."
+        },
+        "weight_like": {
+          "value": 0.6,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code",
+          "note": "Published ranking weights multiply predicted probabilities. They are not multipliers on raw counts."
+        },
+        "weight_reply": {
+          "value": 5.0,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_repost": {
+          "value": 1.0,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_quote": {
+          "value": 5.0,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_share": {
+          "value": 2.0,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_share_dm": {
+          "value": 5.0,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_share_copy_link": {
+          "value": 20.0,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_follow_author": {
+          "value": 4.0,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_open_link": {
+          "value": 0.2,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_report": {
+          "value": -234.0,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code",
+          "note": "Negative feedback (report, mute, block, not interested) dominates every positive signal."
+        },
+        "weight_mute_author": {
+          "value": -58.8,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_block_author": {
+          "value": -31.2,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "weight_not_interested": {
+          "value": -47.52,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code"
+        },
+        "max_post_age_hours": {
+          "value": 48,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/xai-org/x-algorithm/blob/main/home-mixer/params/param.rs",
+          "source_type": "primary-code",
+          "note": "Posts older than this are not candidates for the For You timeline."
+        }
+      }
+    },
+    "linkedin": {
+      "label": "LinkedIn",
+      "primary_domains": [
+        "news.linkedin.com",
+        "engineering.linkedin.com",
+        "business.linkedin.com",
+        "legal.linkedin.com",
+        "learn.microsoft.com"
+      ],
+      "primary_url_prefixes": [
+        "https://www.linkedin.com/help/",
+        "https://www.linkedin.com/legal/"
+      ],
+      "facts": {
+        "post_char_limit": {
+          "value": 3000,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://www.linkedin.com/help/linkedin/answer/a528176",
+          "source_type": "primary"
+        },
+        "article_char_limit": {
+          "value": 125000,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://www.linkedin.com/help/linkedin/answer/a528176",
+          "source_type": "secondary",
+          "note": "Secondary sources only."
+        },
+        "hook_visible_chars": {
+          "value": 210,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "LinkedIn does not publish the 'see more' cut-off. Roughly 210 on desktop and about 140 on mobile, per secondary sources. Put the point of the hook in the first 140."
+        },
+        "hashtags_max": {
+          "value": 5,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "Hashtags are no longer essential and LinkedIn is removing hashtag feeds (secondary reports, 2025)."
+        },
+        "links_in_body_severity": {
+          "value": "ignore",
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://news.linkedin.com/2026/ImprovingTheFeed",
+          "source_type": "primary",
+          "note": "LinkedIn says it does not intentionally limit posts with external links. Third-party data is mixed, so no warning is raised."
+        },
+        "document_max_pages": {
+          "value": 300,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://www.linkedin.com/help/linkedin",
+          "source_type": "primary",
+          "note": "Document posts accept PDF, PPT, PPTX, DOC and DOCX up to 100 MB."
+        },
+        "document_max_mb": {
+          "value": 100,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://www.linkedin.com/help/linkedin",
+          "source_type": "primary"
+        },
+        "ranking_weights_public": {
+          "value": false,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://news.linkedin.com/2026/ImprovingTheFeed",
+          "source_type": "primary",
+          "note": "LinkedIn says guru-claimed signal weights are myths. The 2026 ranker is a sequence model over member history. Treat all LinkedIn 'algorithm tips' as unverified."
+        },
+        "engagement_bait_penalised": {
+          "value": true,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://news.linkedin.com/2026/ImprovingTheFeed",
+          "source_type": "primary",
+          "note": "The 2026 feed update reduces engagement bait (for example 'comment to agree'), pods and comment automation."
+        }
+      }
+    },
+    "newsletter": {
+      "label": "Email newsletter",
+      "primary_domains": [
+        "senders.yahooinc.com",
+        "datatracker.ietf.org",
+        "rfc-editor.org",
+        "support.substack.com"
+      ],
+      "primary_url_prefixes": [
+        "https://support.google.com/mail/",
+        "https://www.beehiiv.com/pricing"
+      ],
+      "facts": {
+        "subject_min_chars": {
+          "value": 30,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "No mail provider enforces a subject length. Short subjects below about 30 characters are often vague."
+        },
+        "subject_max_chars": {
+          "value": 50,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "Target length so the subject is not clipped on mobile."
+        },
+        "subject_hard_max_chars": {
+          "value": 78,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://www.rfc-editor.org/rfc/rfc5322#section-2.1.1",
+          "source_type": "primary",
+          "note": "RFC 5322 says header lines SHOULD be no more than 78 characters."
+        },
+        "subject_max_words": {
+          "value": 7,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "Style guidance only."
+        },
+        "cta_max": {
+          "value": 2,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "House rule: one primary goal per email, repeated once at most."
+        },
+        "bulk_sender_threshold_per_day": {
+          "value": 5000,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://support.google.com/mail/answer/81126",
+          "source_type": "primary",
+          "note": "Gmail bulk-sender requirements apply at 5,000 or more messages a day to Gmail addresses."
+        },
+        "unsubscribe_one_click_required": {
+          "value": true,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://support.google.com/mail/answer/81126",
+          "source_type": "primary",
+          "note": "Bulk senders to Gmail and Yahoo need SPF, DKIM, DMARC, a one-click List-Unsubscribe header (RFC 8058) and a visible unsubscribe link."
+        },
+        "spam_rate_max_percent": {
+          "value": 0.3,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://support.google.com/mail/answer/81126",
+          "source_type": "primary",
+          "note": "Gmail recommends staying below 0.1 percent."
+        },
+        "gmail_clip_kb": {
+          "value": 102,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "secondary",
+          "note": "Google does not publish a clipping threshold. ESPs report about 102 KB on desktop."
+        },
+        "open_rate_reported_percent": {
+          "value": 41,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://www.beehiiv.com",
+          "source_type": "secondary",
+          "note": "Reported open rates include Apple Mail Privacy Protection opens. Human opens are closer to 20 to 26 percent."
+        }
+      }
+    },
+    "instagram": {
+      "label": "Instagram carousel",
+      "primary_domains": [
+        "help.instagram.com",
+        "about.instagram.com",
+        "business.instagram.com",
+        "creators.instagram.com",
+        "developers.facebook.com"
+      ],
+      "primary_url_prefixes": [],
+      "facts": {
+        "slides_min": {
+          "value": 2,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://help.instagram.com/",
+          "source_type": "secondary",
+          "note": "A carousel needs at least two items."
+        },
+        "slides_max": {
+          "value": 20,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://help.instagram.com/",
+          "source_type": "secondary",
+          "note": "The in-app limit moved from 10 to 20 in August 2024. The Graph API and most schedulers still cap at 10."
+        },
+        "slides_max_api": {
+          "value": 10,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/content-publishing",
+          "source_type": "secondary"
+        },
+        "caption_char_limit": {
+          "value": 2200,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://help.instagram.com/",
+          "source_type": "secondary"
+        },
+        "caption_visible_chars": {
+          "value": 125,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://help.instagram.com/",
+          "source_type": "secondary",
+          "note": "About 125 characters show before the caption truncates in the feed."
+        },
+        "hashtags_max": {
+          "value": 5,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "secondary",
+          "note": "The Verge and Social Media Today reported that Instagram announced a cap of 5 hashtags per post on 2025-12-18 and said hashtags do not increase reach. Rollout is gradual."
+        },
+        "slide_body_lines_max": {
+          "value": 3,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "Legibility guidance: one headline and up to three short lines."
+        },
+        "aspect_ratios": {
+          "value": [
+            "1:1",
+            "4:5",
+            "3:4"
+          ],
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://help.instagram.com/",
+          "source_type": "secondary",
+          "note": "3:4 (1080x1440) uploads are supported since 2025-05. The first slide sets the ratio for all slides. The Graph API accepts 4:5 to 1.91:1 only."
+        },
+        "reels_top_signals": {
+          "value": [
+            "watch time",
+            "likes",
+            "sends"
+          ],
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://www.threads.com/@mosseri",
+          "source_type": "secondary",
+          "note": "Instagram's head named these for Reels in 2025-01. It says nothing about carousels."
+        }
+      }
+    },
+    "youtube-shorts": {
+      "label": "YouTube Shorts",
+      "primary_domains": [
+        "blog.youtube",
+        "youtube.googleblog.com"
+      ],
+      "primary_url_prefixes": [
+        "https://support.google.com/youtube/",
+        "https://www.youtube.com/creators/"
+      ],
+      "facts": {
+        "max_seconds": {
+          "value": 180,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://support.google.com/youtube/answer/15424877",
+          "source_type": "primary",
+          "note": "Raised from 60 to 180 seconds on 2024-10-15. Shorts over one minute with an active Content ID claim are blocked."
+        },
+        "target_seconds": {
+          "value": 60,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "House default for scripts. The platform allows 180 seconds but tight scripts are easier to hold attention with."
+        },
+        "words_per_second": {
+          "value": 2.4,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "Typical spoken delivery of 140 to 150 words a minute, used to estimate script duration."
+        },
+        "title_char_limit": {
+          "value": 100,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://support.google.com/youtube/answer/57404",
+          "source_type": "primary"
+        },
+        "description_char_limit": {
+          "value": 5000,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://support.google.com/youtube/answer/57404",
+          "source_type": "primary"
+        },
+        "hashtags_max": {
+          "value": 3,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://support.google.com/youtube/answer/57404",
+          "source_type": "primary",
+          "note": "Up to three hashtags show above the title. If a video has more than 60 hashtags, all are ignored."
+        },
+        "aspect_ratio": {
+          "value": [
+            "9:16",
+            "1:1"
+          ],
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://support.google.com/youtube/answer/12779649",
+          "source_type": "primary",
+          "note": "Square or vertical, up to 1080p."
+        },
+        "ypp_shorts_views_new_applicants": {
+          "value": 20000000,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://blog.youtube",
+          "source_type": "primary",
+          "note": "From 2027-02-01 new applicants need 20M qualified Shorts views in 90 days or 8,000 watch hours, plus 1,000 subscribers."
+        },
+        "synthetic_disclosure_required": {
+          "value": true,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://support.google.com/youtube/",
+          "source_type": "primary",
+          "note": "Realistic altered or synthetic content must be disclosed (required since 2024-03-18)."
+        }
+      }
+    },
+    "tiktok": {
+      "label": "TikTok",
+      "primary_domains": [
+        "support.tiktok.com",
+        "newsroom.tiktok.com",
+        "developers.tiktok.com"
+      ],
+      "primary_url_prefixes": [
+        "https://www.tiktok.com/community-guidelines",
+        "https://www.tiktok.com/creators/"
+      ],
+      "facts": {
+        "caption_char_limit": {
+          "value": 2200,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://developers.tiktok.com/doc/content-posting-api-reference-direct-post",
+          "source_type": "primary",
+          "note": "Content Posting API title limit in UTF-16 units. Some secondary sources report 4,000 in-app; unresolved, so the lower value is used."
+        },
+        "photo_title_char_limit": {
+          "value": 90,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://developers.tiktok.com/doc/content-posting-api-reference-photo-post",
+          "source_type": "primary"
+        },
+        "photo_description_char_limit": {
+          "value": 4000,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://developers.tiktok.com/doc/content-posting-api-reference-photo-post",
+          "source_type": "primary"
+        },
+        "hashtags_max": {
+          "value": 5,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "TikTok publishes no hashtag count. Secondary reports of a cap of 5 conflict. Creator guidance suggests 2 to 3."
+        },
+        "hook_words_max": {
+          "value": 10,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "Hook within roughly two seconds of speech."
+        },
+        "upload_max_minutes": {
+          "value": 60,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://support.tiktok.com/",
+          "source_type": "primary-quoted",
+          "note": "In-app upload up to 60 minutes and recording up to 10 minutes. The API defaults to 3 minutes."
+        },
+        "aigc_label_required": {
+          "value": true,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://support.tiktok.com/en/using-tiktok/creating-videos/ai-generated-content",
+          "source_type": "primary",
+          "note": "Realistic AI-generated content must be labelled. Labelled content stays eligible for For You."
+        },
+        "ranking_signals_public": {
+          "value": [
+            "likes",
+            "shares",
+            "comments",
+            "watch in full or skip",
+            "follows"
+          ],
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://newsroom.tiktok.com/",
+          "source_type": "primary",
+          "note": "TikTok lists the signal categories but publishes no weights or order."
+        }
+      }
+    },
+    "threads": {
+      "label": "Threads",
+      "primary_domains": [
+        "about.meta.com",
+        "help.instagram.com"
+      ],
+      "primary_url_prefixes": [
+        "https://developers.facebook.com/docs/threads",
+        "https://www.threads.com/@threads/",
+        "https://www.threads.com/@mosseri/"
+      ],
+      "facts": {
+        "post_char_limit": {
+          "value": 500,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://www.threads.com/@threads/post/DOMN3w-Ec22",
+          "source_type": "primary",
+          "note": "Emoji are counted by UTF-8 bytes in the API."
+        },
+        "text_attachment_char_limit": {
+          "value": 10000,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://www.threads.com/@threads/post/DOMN3w-Ec22",
+          "source_type": "primary",
+          "note": "Long text attachments cannot be edited or scheduled."
+        },
+        "links_per_post_max": {
+          "value": 5,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://developers.facebook.com/docs/threads",
+          "source_type": "secondary",
+          "note": "The API enforces up to 5 unique links per post since 2025-12-22. The link preview card appears only on text-only posts."
+        },
+        "topic_tags_max": {
+          "value": 1,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://www.threads.com/@mosseri/",
+          "source_type": "primary",
+          "note": "One topic tag per post."
+        },
+        "carousel_items_max": {
+          "value": 20,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://developers.facebook.com/docs/threads",
+          "source_type": "secondary",
+          "note": "API limit. One secondary source says the in-app Help Center still says 10. Unresolved."
+        },
+        "video_max_minutes": {
+          "value": 5,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://developers.facebook.com/docs/threads",
+          "source_type": "secondary"
+        }
+      }
+    },
+    "bluesky": {
+      "label": "Bluesky",
+      "primary_domains": [
+        "docs.bsky.app"
+      ],
+      "primary_url_prefixes": [
+        "https://github.com/bluesky-social/",
+        "https://bsky.social/about/blog",
+        "https://bsky.app/profile/bsky.app/"
+      ],
+      "facts": {
+        "post_grapheme_limit": {
+          "value": 300,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/bluesky-social/atproto",
+          "source_type": "primary",
+          "note": "Lexicon app.bsky.feed.post: 300 graphemes and 3,000 UTF-8 bytes."
+        },
+        "post_byte_limit": {
+          "value": 3000,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/bluesky-social/atproto",
+          "source_type": "primary"
+        },
+        "images_max": {
+          "value": 10,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/bluesky-social/atproto",
+          "source_type": "primary",
+          "note": "Up to 10 photos via the gallery embed since June 2026. The legacy images embed still allows 4."
+        },
+        "video_max_minutes": {
+          "value": 10,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://bsky.app/profile/bsky.app/",
+          "source_type": "primary",
+          "note": "Raised to 10 minutes and 300 MB on 2026-08-25. Email verification required."
+        },
+        "extra_tags_max": {
+          "value": 8,
+          "kind": "hard",
+          "verified_at": "2026-10-13",
+          "source": "https://github.com/bluesky-social/atproto",
+          "source_type": "primary",
+          "note": "Hashtag facets plus up to 8 extra tags of at most 64 graphemes each."
+        },
+        "users_millions": {
+          "value": 45,
+          "kind": "algorithm",
+          "verified_at": "2026-10-13",
+          "source": "https://bsky.app/profile/bsky.app/",
+          "source_type": "primary",
+          "note": "Reported 2026-06-25. Daily mobile use is reported as declining year on year by third parties."
+        }
+      }
+    },
+    "podcast": {
+      "label": "Podcast talking points",
+      "primary_domains": [
+        "podcasters.apple.com",
+        "support.apple.com",
+        "developer.apple.com",
+        "creators.spotify.com",
+        "support.spotify.com",
+        "podcasters.spotify.com"
+      ],
+      "primary_url_prefixes": [],
+      "facts": {
+        "bullet_words_max": {
+          "value": 12,
+          "kind": "heuristic",
+          "verified_at": "2026-10-13",
+          "source": "",
+          "source_type": "none",
+          "note": "Talking points are keywords, not scripted sentences. Only the CTA is verbatim."
+        },
+        "spotify_chapters_min": {
+          "value": 3,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://support.spotify.com/",
+          "source_type": "primary",
+          "note": "Spotify chapters need at least 3 entries, the first at 00:00, at least 30 seconds apart."
+        },
+        "apple_auto_chapters_min_minutes": {
+          "value": 10,
+          "kind": "policy",
+          "verified_at": "2026-10-13",
+          "source": "https://support.apple.com/",
+          "source_type": "primary",
+          "note": "Apple generates chapters for English full or bonus episodes of 10 minutes or more. Creators can supply their own."
+        }
+      }
+    }
+  }
+}

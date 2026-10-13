@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "feed_url": "https://raw.githubusercontent.com/baagad-ai/content-wand/main/feed/specs-feed.json",
+  "signature_url": "https://raw.githubusercontent.com/baagad-ai/content-wand/main/feed/specs-feed.json.sig",
+  "allowed_hosts": ["raw.githubusercontent.com"],
+  "min_interval_hours": 24,
+  "max_bytes": 262144,
+  "timeout_seconds": 8
+}

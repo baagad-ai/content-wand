@@ -1,0 +1,760 @@
+{
+  "schema_version": 1,
+  "source": "references/ai-patterns.md",
+  "tier1": [
+    {
+      "term": "delve",
+      "pattern": "\\bdelves?\\b",
+      "replace": "examine, look at, dig into",
+      "exception": "N/A — always replace"
+    },
+    {
+      "term": "delve into",
+      "pattern": "\\bdelve\\s+into\\b",
+      "replace": "examine, look at, dig into",
+      "exception": "N/A — always replace"
+    },
+    {
+      "term": "leverage",
+      "pattern": "\\bleverag\\w{0,4}\\b",
+      "replace": "use, apply, draw on",
+      "exception": "It's a financial noun (\"debt leverage ratio\")"
+    },
+    {
+      "term": "tapestry",
+      "pattern": "\\btapestr\\w{0,4}\\b",
+      "replace": "mix, combination, blend",
+      "exception": "It literally means woven fabric"
+    },
+    {
+      "term": "robust",
+      "pattern": "\\brobust\\w{0,4}\\b",
+      "replace": "strong, solid, reliable",
+      "exception": "Technical spec context (e.g., \"robust error handling\" in code docs is fine)"
+    },
+    {
+      "term": "seamless",
+      "pattern": "\\bseamless\\w{0,4}\\b",
+      "replace": "smooth, easy, without friction",
+      "exception": "N/A"
+    },
+    {
+      "term": "seamlessly",
+      "pattern": "\\bseamlessl\\w{0,4}\\b",
+      "replace": "smooth, easy, without friction",
+      "exception": "N/A"
+    },
+    {
+      "term": "transformative",
+      "pattern": "\\btransformativ\\w{0,4}\\b",
+      "replace": "significant, real, lasting, meaningful",
+      "exception": "N/A"
+    },
+    {
+      "term": "pivotal",
+      "pattern": "\\bpivotal\\w{0,4}\\b",
+      "replace": "key, decisive, turning point",
+      "exception": "N/A"
+    },
+    {
+      "term": "nuanced",
+      "pattern": "\\bnuanced\\w{0,4}\\b",
+      "replace": "specific, careful, layered, detailed",
+      "exception": "N/A"
+    },
+    {
+      "term": "multifaceted",
+      "pattern": "\\bmultifaceted\\w{0,4}\\b",
+      "replace": "complex, many-sided, layered",
+      "exception": "N/A"
+    },
+    {
+      "term": "comprehensive",
+      "pattern": "\\bcomprehensiv\\w{0,4}\\b",
+      "replace": "full, thorough, complete",
+      "exception": "In academic/technical contexts where exhaustiveness is the actual claim"
+    },
+    {
+      "term": "underscore",
+      "pattern": "\\bunderscor\\w{0,4}\\b",
+      "replace": "highlight, show, point to",
+      "exception": "It's used as a noun (the character `_`)"
+    },
+    {
+      "term": "testament",
+      "pattern": "\\btestament\\w{0,4}\\b",
+      "replace": "proof of, evidence of, sign of",
+      "exception": "N/A"
+    },
+    {
+      "term": "landscape",
+      "pattern": "\\blandscap\\w{0,4}\\b",
+      "replace": "field, area, world, space, domain",
+      "exception": "Literal geographical use"
+    },
+    {
+      "term": "ecosystem",
+      "pattern": "\\becosystem\\w{0,4}\\b",
+      "replace": "system, network, world",
+      "exception": "Literal biological use"
+    },
+    {
+      "term": "foster",
+      "pattern": "\\bfoster\\w{0,4}\\b",
+      "replace": "build, encourage, support, grow",
+      "exception": "N/A"
+    },
+    {
+      "term": "navigate",
+      "pattern": "\\bnavigat\\w{0,4}\\b",
+      "replace": "deal with, work through, handle",
+      "exception": "Literal navigation (sailing, GPS, directions)"
+    },
+    {
+      "term": "holistic",
+      "pattern": "\\bholistic\\w{0,4}\\b",
+      "replace": "whole, complete, all-round",
+      "exception": "Clinical/medical context"
+    },
+    {
+      "term": "synergy",
+      "pattern": "\\bsynerg\\w{0,4}\\b",
+      "replace": "cooperation, combined effect, working together",
+      "exception": "N/A"
+    },
+    {
+      "term": "cutting-edge",
+      "pattern": "\\bcutting\\-edg\\w{0,4}\\b",
+      "replace": "latest, current, leading, newest",
+      "exception": "N/A"
+    },
+    {
+      "term": "innovative",
+      "pattern": "\\binnovativ\\w{0,4}\\b",
+      "replace": "new, original, fresh",
+      "exception": "N/A"
+    },
+    {
+      "term": "groundbreaking",
+      "pattern": "\\bgroundbreaking\\w{0,4}\\b",
+      "replace": "significant, notable, new",
+      "exception": "N/A"
+    },
+    {
+      "term": "paradigm shift",
+      "pattern": "\\bparadigm\\s+shift\\b",
+      "replace": "fundamental change, new way of thinking",
+      "exception": "N/A"
+    },
+    {
+      "term": "game-changer",
+      "pattern": "\\bgame\\-changer\\w{0,4}\\b",
+      "replace": "major shift, turning point",
+      "exception": "N/A"
+    },
+    {
+      "term": "game-changing",
+      "pattern": "\\bgame\\-changing\\w{0,4}\\b",
+      "replace": "major shift, turning point",
+      "exception": "N/A"
+    },
+    {
+      "term": "revolutionary",
+      "pattern": "\\brevolutionar\\w{0,4}\\b",
+      "replace": "radical, major, new",
+      "exception": "Historical contexts (the Revolutionary War is fine)"
+    },
+    {
+      "term": "empower",
+      "pattern": "\\bempower\\w{0,4}\\b",
+      "replace": "help, enable, give, allow",
+      "exception": "Specific social justice/policy contexts where \"empowerment\" is the named concept"
+    },
+    {
+      "term": "empowerment",
+      "pattern": "\\bempowerment\\w{0,4}\\b",
+      "replace": "help, enable, give, allow",
+      "exception": "Specific social justice/policy contexts where \"empowerment\" is the named concept"
+    },
+    {
+      "term": "optimize",
+      "pattern": "\\boptimiz\\w{0,4}\\b",
+      "replace": "improve, fix, tune",
+      "exception": "Technical performance context (database optimization, code optimization)"
+    },
+    {
+      "term": "streamline",
+      "pattern": "\\bstreamlin\\w{0,4}\\b",
+      "replace": "simplify, speed up, cut steps",
+      "exception": "N/A"
+    },
+    {
+      "term": "elevate",
+      "pattern": "\\belevat\\w{0,4}\\b",
+      "replace": "improve, raise, boost",
+      "exception": "Literal elevation (altitude)"
+    },
+    {
+      "term": "harness",
+      "pattern": "\\bharness\\w{0,4}\\b",
+      "replace": "use, capture, direct, apply",
+      "exception": "Literal (horse harness, safety harness)"
+    },
+    {
+      "term": "unlock",
+      "pattern": "\\bunlock\\w{0,4}\\b",
+      "replace": "reveal, release, open up, access",
+      "exception": "Literal (unlock a door, unlock a phone)"
+    },
+    {
+      "term": "unleash",
+      "pattern": "\\bunleash\\w{0,4}\\b",
+      "replace": "release, let loose, free",
+      "exception": "Literal animal contexts"
+    },
+    {
+      "term": "facilitate",
+      "pattern": "\\bfacilitat\\w{0,4}\\b",
+      "replace": "help, make easier, enable",
+      "exception": "Formal facilitation (e.g., \"she facilitated the meeting\" in a professional context)"
+    },
+    {
+      "term": "elucidate",
+      "pattern": "\\belucidat\\w{0,4}\\b",
+      "replace": "explain, clarify, show",
+      "exception": "N/A"
+    },
+    {
+      "term": "illuminate",
+      "pattern": "\\billuminat\\w{0,4}\\b",
+      "replace": "explain, reveal, show",
+      "exception": "Literal light use"
+    },
+    {
+      "term": "resonate",
+      "pattern": "\\bresonat\\w{0,4}\\b",
+      "replace": "connect, appeal, ring true",
+      "exception": "Music and sound contexts"
+    },
+    {
+      "term": "captivate",
+      "pattern": "\\bcaptivat\\w{0,4}\\b",
+      "replace": "engage, interest, hold attention",
+      "exception": "N/A"
+    },
+    {
+      "term": "embark",
+      "pattern": "\\bembark\\w{0,4}\\b",
+      "replace": "start, begin, set out",
+      "exception": "Literal sea/travel use"
+    },
+    {
+      "term": "showcase",
+      "pattern": "\\bshowcas\\w{0,4}\\b",
+      "replace": "show, demonstrate, display",
+      "exception": "N/A"
+    },
+    {
+      "term": "align",
+      "pattern": "\\baligns?\\b",
+      "replace": "match, fit with, support, reflect",
+      "exception": "Literal alignment (physical, typographic)"
+    },
+    {
+      "term": "whilst",
+      "pattern": "\\bwhilst\\w{0,4}\\b",
+      "replace": "while",
+      "exception": "N/A — always replace"
+    },
+    {
+      "term": "spearhead",
+      "pattern": "\\bspearhead\\w{0,4}\\b",
+      "replace": "lead, drive, head up",
+      "exception": "N/A"
+    },
+    {
+      "term": "galvanize",
+      "pattern": "\\bgalvaniz\\w{0,4}\\b",
+      "replace": "motivate, push, drive",
+      "exception": "Literal (galvanized steel)"
+    },
+    {
+      "term": "orchestrate",
+      "pattern": "\\borchestrat\\w{0,4}\\b",
+      "replace": "organize, manage, coordinate, arrange",
+      "exception": "Musical conducting context"
+    },
+    {
+      "term": "cultivate",
+      "pattern": "\\bcultivat\\w{0,4}\\b",
+      "replace": "build, develop, grow",
+      "exception": "Literal farming/gardening"
+    },
+    {
+      "term": "proliferate",
+      "pattern": "\\bproliferat\\w{0,4}\\b",
+      "replace": "spread, grow, multiply",
+      "exception": "N/A"
+    },
+    {
+      "term": "eradicate",
+      "pattern": "\\beradicat\\w{0,4}\\b",
+      "replace": "remove, end, eliminate",
+      "exception": "N/A"
+    },
+    {
+      "term": "paramount",
+      "pattern": "\\bparamount\\w{0,4}\\b",
+      "replace": "most important, top priority, critical",
+      "exception": "N/A"
+    },
+    {
+      "term": "quintessential",
+      "pattern": "\\bquintessential\\w{0,4}\\b",
+      "replace": "typical, classic, defining example of",
+      "exception": "N/A"
+    },
+    {
+      "term": "unparalleled",
+      "pattern": "\\bunparalleled\\w{0,4}\\b",
+      "replace": "unmatched, unique, exceptional",
+      "exception": "N/A"
+    },
+    {
+      "term": "invaluable",
+      "pattern": "\\binvaluabl\\w{0,4}\\b",
+      "replace": "very useful, essential, critical, important",
+      "exception": "N/A"
+    },
+    {
+      "term": "actionable",
+      "pattern": "\\bactionabl\\w{0,4}\\b",
+      "replace": "practical, useful, something you can act on",
+      "exception": "N/A"
+    },
+    {
+      "term": "pain points",
+      "pattern": "\\bpain\\s+points\\b",
+      "replace": "problems, issues, frustrations, challenges",
+      "exception": "N/A"
+    },
+    {
+      "term": "commendable",
+      "pattern": "\\bcommendabl\\w{0,4}\\b",
+      "replace": "impressive, good, well done",
+      "exception": "N/A"
+    },
+    {
+      "term": "scalable",
+      "pattern": "\\bscalabl\\w{0,4}\\b",
+      "replace": "expandable, able to grow",
+      "exception": "Technical architecture context (scalable infrastructure) is fine"
+    },
+    {
+      "term": "endeavour",
+      "pattern": "\\bendeavour\\w{0,4}\\b",
+      "replace": "try, attempt, work, aim",
+      "exception": "N/A"
+    },
+    {
+      "term": "certainly",
+      "pattern": "\\bcertainl\\w{0,4}\\b",
+      "replace": "[delete — it adds nothing]",
+      "exception": "N/A"
+    },
+    {
+      "term": "indeed",
+      "pattern": "\\bindeed\\w{0,4}\\b",
+      "replace": "[delete — it adds nothing]",
+      "exception": "N/A"
+    },
+    {
+      "term": "in order to",
+      "pattern": "\\bin\\s+order\\s+to\\b",
+      "replace": "to",
+      "exception": "N/A"
+    },
+    {
+      "term": "due to the fact that",
+      "pattern": "\\bdue\\s+to\\s+the\\s+fact\\s+that\\b",
+      "replace": "because",
+      "exception": "N/A"
+    },
+    {
+      "term": "at this point in time",
+      "pattern": "\\bat\\s+this\\s+point\\s+in\\s+time\\b",
+      "replace": "now",
+      "exception": "N/A"
+    },
+    {
+      "term": "for the purpose of",
+      "pattern": "\\bfor\\s+the\\s+purpose\\s+of\\b",
+      "replace": "for, to",
+      "exception": "N/A"
+    },
+    {
+      "term": "in the event that",
+      "pattern": "\\bin\\s+the\\s+event\\s+that\\b",
+      "replace": "if",
+      "exception": "N/A"
+    }
+  ],
+  "tier2": [
+    {
+      "term": "furthermore",
+      "pattern": "\\bfurthermor\\w{0,4}\\b",
+      "replace": "also, and — or delete the connector",
+      "keep_when": "Genuine logical extension in formal writing"
+    },
+    {
+      "term": "moreover",
+      "pattern": "\\bmoreover\\w{0,4}\\b",
+      "replace": "also — or delete",
+      "keep_when": "Rare formal writing with a specific additive claim"
+    },
+    {
+      "term": "additionally",
+      "pattern": "\\badditionall\\w{0,4}\\b",
+      "replace": "also, and, in addition",
+      "keep_when": "Formal or technical writing where additive structure is explicit"
+    },
+    {
+      "term": "consequently",
+      "pattern": "\\bconsequentl\\w{0,4}\\b",
+      "replace": "so, as a result",
+      "keep_when": "Causal logic that needs explicit marking"
+    },
+    {
+      "term": "nevertheless",
+      "pattern": "\\bnevertheless\\w{0,4}\\b",
+      "replace": "still, even so, but",
+      "keep_when": "Genuine concessive logic"
+    },
+    {
+      "term": "nonetheless",
+      "pattern": "\\bnonetheless\\w{0,4}\\b",
+      "replace": "still, even so",
+      "keep_when": "Same as nevertheless"
+    },
+    {
+      "term": "thus",
+      "pattern": "\\bthuss?\\b",
+      "replace": "so, therefore",
+      "keep_when": "Mathematical or formal argument"
+    },
+    {
+      "term": "hence",
+      "pattern": "\\bhences?\\b",
+      "replace": "so, which means",
+      "keep_when": "Same as thus"
+    },
+    {
+      "term": "therefore",
+      "pattern": "\\btherefor\\w{0,4}\\b",
+      "replace": "so, which means",
+      "keep_when": "Same as thus"
+    },
+    {
+      "term": "insights",
+      "pattern": "\\binsights\\w{0,4}\\b",
+      "replace": "findings, lessons, observations",
+      "keep_when": "When \"insight\" is genuinely the right word (a sudden realization)"
+    },
+    {
+      "term": "journey",
+      "pattern": "\\bjourne\\w{0,4}\\b",
+      "replace": "process, experience, path, story",
+      "keep_when": "When the metaphor is intentional and specific"
+    },
+    {
+      "term": "community",
+      "pattern": "\\bcommunit\\w{0,4}\\b",
+      "replace": "[replace with specific group name]",
+      "keep_when": "When referring to a real, named community"
+    },
+    {
+      "term": "conversation",
+      "pattern": "\\bconversation\\w{0,4}\\b",
+      "replace": "[use more specific verb: \"debate\", \"discussion\", \"exchange\"]",
+      "keep_when": "When \"conversation\" is deliberately used for its informal warmth"
+    },
+    {
+      "term": "story",
+      "pattern": "\\bstorys?\\b",
+      "replace": "[use if genuinely narrative]",
+      "keep_when": "Literal storytelling"
+    },
+    {
+      "term": "explore",
+      "pattern": "\\bexplor\\w{0,4}\\b",
+      "replace": "look at, consider, examine",
+      "keep_when": "When \"explore\" is used with genuine openness (not as a decoration)"
+    },
+    {
+      "term": "dive into",
+      "pattern": "\\bdive\\s+into\\b",
+      "replace": "[only use if brief and intentional]",
+      "keep_when": "When used sparingly and the context is casual"
+    },
+    {
+      "term": "unpack",
+      "pattern": "\\bunpack\\w{0,4}\\b",
+      "replace": "examine, break down, look at",
+      "keep_when": "N/A"
+    },
+    {
+      "term": "impactful",
+      "pattern": "\\bimpactful\\w{0,4}\\b",
+      "replace": "effective, meaningful, significant",
+      "keep_when": "N/A"
+    },
+    {
+      "term": "utilize",
+      "pattern": "\\butiliz\\w{0,4}\\b",
+      "replace": "use",
+      "keep_when": "Highly technical contexts where \"utilize\" means specifically \"make use of in a functional capacity\""
+    }
+  ],
+  "filler": [
+    {
+      "phrase": "It's worth noting that",
+      "pattern": "\\bIt's\\s+worth\\s+noting\\s+that\\b"
+    },
+    {
+      "phrase": "It's important to note that",
+      "pattern": "\\bIt's\\s+important\\s+to\\s+note\\s+that\\b"
+    },
+    {
+      "phrase": "It should be noted that",
+      "pattern": "\\bIt\\s+should\\s+be\\s+noted\\s+that\\b"
+    },
+    {
+      "phrase": "It's crucial to understand that",
+      "pattern": "\\bIt's\\s+crucial\\s+to\\s+understand\\s+that\\b"
+    },
+    {
+      "phrase": "It can be argued that",
+      "pattern": "\\bIt\\s+can\\s+be\\s+argued\\s+that\\b"
+    },
+    {
+      "phrase": "Needless to say",
+      "pattern": "\\bNeedless\\s+to\\s+say\\b"
+    },
+    {
+      "phrase": "It goes without saying that",
+      "pattern": "\\bIt\\s+goes\\s+without\\s+saying\\s+that\\b"
+    },
+    {
+      "phrase": "Generally speaking",
+      "pattern": "\\bGenerally\\s+speaking\\b"
+    },
+    {
+      "phrase": "To some extent",
+      "pattern": "\\bTo\\s+some\\s+extent\\b"
+    },
+    {
+      "phrase": "From a broader perspective",
+      "pattern": "\\bFrom\\s+a\\s+broader\\s+perspective\\b"
+    },
+    {
+      "phrase": "As we all know",
+      "pattern": "\\bAs\\s+we\\s+all\\s+know\\b"
+    },
+    {
+      "phrase": "Of course",
+      "pattern": "\\bOf\\s+course\\b"
+    },
+    {
+      "phrase": "Obviously",
+      "pattern": "\\bObviously\\b"
+    },
+    {
+      "phrase": "Clearly",
+      "pattern": "\\bClearly\\b"
+    }
+  ],
+  "opening_cliches": [
+    {
+      "phrase": "In today's fast-paced world",
+      "pattern": "\\bIn\\s+today's\\s+fast\\-paced\\s+world\\b"
+    },
+    {
+      "phrase": "In today's digital landscape",
+      "pattern": "\\bIn\\s+today's\\s+digital\\s+landscape\\b"
+    },
+    {
+      "phrase": "In an era where",
+      "pattern": "\\bIn\\s+an\\s+era\\s+where\\b"
+    },
+    {
+      "phrase": "In an era of",
+      "pattern": "\\bIn\\s+an\\s+era\\s+of\\b"
+    },
+    {
+      "phrase": "In the ever-evolving world of",
+      "pattern": "\\bIn\\s+the\\s+ever\\-evolving\\s+world\\s+of\\b"
+    },
+    {
+      "phrase": "In recent years, [topic] has become increasingly",
+      "pattern": "\\bIn\\s+recent\\s+years,\\s+has\\s+become\\s+increasingly\\b"
+    },
+    {
+      "phrase": "As we navigate an increasingly [adjective] world",
+      "pattern": "\\bAs\\s+we\\s+navigate\\s+an\\s+increasingly\\s+world\\b"
+    },
+    {
+      "phrase": "In the age of [technology/AI/social media]",
+      "pattern": "\\bIn\\s+the\\s+age\\s+of\\b"
+    },
+    {
+      "phrase": "Whether you're a [beginner] or a [professional]",
+      "pattern": "\\bWhether\\s+you're\\s+a\\s+or\\s+a\\b"
+    },
+    {
+      "phrase": "There's no denying that",
+      "pattern": "\\bThere's\\s+no\\s+denying\\s+that\\b"
+    },
+    {
+      "phrase": "It goes without saying that",
+      "pattern": "\\bIt\\s+goes\\s+without\\s+saying\\s+that\\b"
+    },
+    {
+      "phrase": "Have you ever wondered",
+      "pattern": "\\bHave\\s+you\\s+ever\\s+wondered\\b"
+    }
+  ],
+  "closing_cliches": [
+    {
+      "phrase": "In conclusion,",
+      "pattern": "\\bIn\\s+conclusion\\b"
+    },
+    {
+      "phrase": "In summary,",
+      "pattern": "\\bIn\\s+summary\\b"
+    },
+    {
+      "phrase": "To summarize,",
+      "pattern": "\\bTo\\s+summarize\\b"
+    },
+    {
+      "phrase": "In essence,",
+      "pattern": "\\bIn\\s+essence\\b"
+    },
+    {
+      "phrase": "To wrap things up,",
+      "pattern": "\\bTo\\s+wrap\\s+things\\s+up\\b"
+    },
+    {
+      "phrase": "As we move forward",
+      "pattern": "\\bAs\\s+we\\s+move\\s+forward\\b"
+    },
+    {
+      "phrase": "By embracing [topic], we can",
+      "pattern": "\\bBy\\s+embracing\\s+,\\s+we\\s+can\\b"
+    },
+    {
+      "phrase": "The future of [topic] is bright",
+      "pattern": "\\bThe\\s+future\\s+of\\s+is\\s+bright\\b"
+    },
+    {
+      "phrase": "The possibilities are endless",
+      "pattern": "\\bThe\\s+possibilities\\s+are\\s+endless\\b"
+    },
+    {
+      "phrase": "Together, we can [achieve something vague]",
+      "pattern": "\\bTogether,\\s+we\\s+can\\b"
+    },
+    {
+      "phrase": "Only time will tell",
+      "pattern": "\\bOnly\\s+time\\s+will\\s+tell\\b"
+    },
+    {
+      "phrase": "This is just the beginning",
+      "pattern": "\\bThis\\s+is\\s+just\\s+the\\s+beginning\\b"
+    },
+    {
+      "phrase": "Remember: [platitude]",
+      "pattern": "\\bRemember:\\b"
+    }
+  ],
+  "false_intimacy": [
+    {
+      "phrase": "Here's the thing",
+      "pattern": "\\bHere's\\s+the\\s+thing\\b"
+    },
+    {
+      "phrase": "Here's an uncomfortable truth",
+      "pattern": "\\bHere's\\s+an\\s+uncomfortable\\s+truth\\b"
+    },
+    {
+      "phrase": "Let me be honest with you",
+      "pattern": "\\bLet\\s+me\\s+be\\s+honest\\s+with\\s+you\\b"
+    },
+    {
+      "phrase": "The truth is",
+      "pattern": "\\bThe\\s+truth\\s+is\\b"
+    },
+    {
+      "phrase": "What no one tells you is",
+      "pattern": "\\bWhat\\s+no\\s+one\\s+tells\\s+you\\s+is\\b"
+    },
+    {
+      "phrase": "Let's be real",
+      "pattern": "\\bLet's\\s+be\\s+real\\b"
+    },
+    {
+      "phrase": "Let's dive in.",
+      "pattern": "\\bLet's\\s+dive\\s+in\\b"
+    },
+    {
+      "phrase": "Let's explore",
+      "pattern": "\\bLet's\\s+explore\\b"
+    },
+    {
+      "phrase": "You might be wondering",
+      "pattern": "\\bYou\\s+might\\s+be\\s+wondering\\b"
+    },
+    {
+      "phrase": "I understand you might be thinking",
+      "pattern": "\\bI\\s+understand\\s+you\\s+might\\s+be\\s+thinking\\b"
+    }
+  ],
+  "corporate_inspirational": [
+    {
+      "phrase": "Unlock your potential",
+      "pattern": "\\bUnlock\\s+your\\s+potential\\b"
+    },
+    {
+      "phrase": "Push the boundaries of",
+      "pattern": "\\bPush\\s+the\\s+boundaries\\s+of\\b"
+    },
+    {
+      "phrase": "At the forefront of",
+      "pattern": "\\bAt\\s+the\\s+forefront\\s+of\\b"
+    },
+    {
+      "phrase": "Pave the way for",
+      "pattern": "\\bPave\\s+the\\s+way\\s+for\\b"
+    },
+    {
+      "phrase": "Bridging the gap between",
+      "pattern": "\\bBridging\\s+the\\s+gap\\s+between\\b"
+    },
+    {
+      "phrase": "Transforming the way we",
+      "pattern": "\\bTransforming\\s+the\\s+way\\s+we\\b"
+    },
+    {
+      "phrase": "Shaping the future of",
+      "pattern": "\\bShaping\\s+the\\s+future\\s+of\\b"
+    },
+    {
+      "phrase": "Empowering individuals to",
+      "pattern": "\\bEmpowering\\s+individuals\\s+to\\b"
+    },
+    {
+      "phrase": "Creating a world where",
+      "pattern": "\\bCreating\\s+a\\s+world\\s+where\\b"
+    }
+  ]
+}

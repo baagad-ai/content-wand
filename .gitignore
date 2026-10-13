@@ -7,3 +7,7 @@ content-output/
 .worktrees/
 assets/
 improvements/
+
+__pycache__/
+*.pyc
+dist/
