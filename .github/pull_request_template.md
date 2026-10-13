@@ -1,24 +1,26 @@
 ## What this changes
 
-<!-- One paragraph. What skill file(s) changed and why. -->
+<!-- One paragraph. What changed and why. -->
 
 ## Type of change
 
-- [ ] Bug fix (corrects wrong behavior in an existing skill)
-- [ ] New platform or format (adds output support)
-- [ ] Instruction improvement (tightens NOT contract, adds edge case, improves quality heuristics)
-- [ ] Reference update (platform specs, Writing Style schema)
-- [ ] Docs / CHANGELOG only
+- [ ] Bug fix
+- [ ] New platform or format
+- [ ] Workflow or instruction change (`SKILL.md`, `references/`)
+- [ ] Platform rule data (`data/platform-specs.json`)
+- [ ] Hooks or security
+- [ ] Docs or changelog only
 
 ## Checklist
 
-- [ ] CHANGELOG.md updated under `[Unreleased]`
-- [ ] All modified SKILL.md files have valid YAML frontmatter
-- [ ] NOT contracts are specific (name rationalizations, not just prohibitions)
-- [ ] Handoff block delimiters match across files (`---BLOCK-START---` / `---BLOCK-END---`)
-- [ ] Fallback behavior defined for any new failure mode
-- [ ] No raw user content or credentials stored in Writing Style files
+- [ ] `python3 scripts/check_release.py` passes
+- [ ] Tests or eval cases added for changed behaviour
+- [ ] Rule changes cite an official source and a verification date, and `references/platform-specs.md` is re-rendered
+- [ ] `SKILL.md` is still under 500 lines and frontmatter is valid
+- [ ] Hooks still fail open and stay inactive outside a content-wand session
+- [ ] No secrets, contact details or raw source text are stored in Writing Styles or outputs
+- [ ] `CHANGELOG.md` updated under `[Unreleased]`
 
 ## Testing
 
-<!-- How did you verify this works? Paste the Claude prompt you used and the output you got. -->
+<!-- Commands run, and for instruction changes, the manual eval results from evals/README.md. -->

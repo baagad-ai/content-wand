@@ -1,0 +1,12 @@
+{
+  "name": "content-wand",
+  "description": "content-wand: source-faithful content repurposing with human review",
+  "owner": { "name": "baagad-ai" },
+  "plugins": [
+    {
+      "name": "content-wand",
+      "source": "./",
+      "description": "Turn one source into review-ready platform-native content with code-checked limits, a claims ledger and a human approval gate."
+    }
+  ]
+}

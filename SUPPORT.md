@@ -1,18 +1,32 @@
-# Getting Support
+# Getting support
 
 ## Quick answers
 
-Check the [README](./README.md) — most questions about installation, usage, and Writing Style setup are answered there.
+- Installation, commands and workflows: [`README.md`](README.md).
+- Twelve ready-made workflows: [`skills/content-wand/references/use-cases.md`](skills/content-wand/references/use-cases.md).
+- Something looks wrong with limits or rules: run `python3 scripts/cw.py preflight` from the skill folder and check `specs`. Platform rules can change faster than releases, see [`references/spec-refresh.md`](skills/content-wand/references/spec-refresh.md).
 
-## Something isn't working
+## Diagnose a problem
 
-[Open an issue](https://github.com/baagad-ai/content-wand/issues/new?template=bug_report.md) with the bug report template. Include your input type, mode, and what Claude actually did.
+```bash
+python3 scripts/cw.py preflight     # environment, guards, stale rules, style state
+python3 scripts/cw.py audit tail    # recent hook decisions (Claude Code plugin)
+```
 
-## Feature ideas
+`guards: "prompt-only"` means hooks are not active on this host. That is normal outside Claude Code.
 
-[Open a feature request](https://github.com/baagad-ai/content-wand/issues/new?template=feature_request.md) or start a [Discussion](https://github.com/baagad-ai/content-wand/discussions).
+## Report a bug
 
-## Direct contact
+[Open an issue](https://github.com/baagad-ai/content-wand/issues/new?template=bug_report.md). Include the host and version, the `preflight` output, the prompt, and what happened. Remove private content first.
 
-For security issues: baagad.ai@gmail.com (see [SECURITY.md](./SECURITY.md))
-For everything else: [@baagad_ai on X](https://x.com/baagad_ai)
+## Request a feature
+
+[Open a feature request](https://github.com/baagad-ai/content-wand/issues/new?template=feature_request.md).
+
+## Security issues
+
+Do not use public issues. See [`SECURITY.md`](SECURITY.md).
+
+## Commercial and distributor questions
+
+See [`docs/DISTRIBUTION.md`](docs/DISTRIBUTION.md). Contact: [@baagad_ai on X](https://x.com/baagad_ai).

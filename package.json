@@ -1,34 +1,21 @@
 {
   "name": "content-wand",
-  "version": "1.1.0",
-  "description": "Transform any content into 9 platform-native formats or convert between content types — with Writing Style matching and an AI-pattern humanizer on every output. Supports Twitter/X, LinkedIn, newsletter, Instagram, YouTube Shorts, TikTok, Threads, Bluesky, and podcast. Works from text, URLs, transcripts, rough notes, or a topic idea. Writing Styles save globally and apply automatically across all projects.",
-  "type": "skill",
-  "author": "Prajwal Mishra",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Turn one source into review-ready, platform-native content. Limits are checked in code, every claim is traced to the source, and nothing is published without human approval. An Agent Skill with optional Claude Code guard hooks.",
   "license": "MIT",
+  "author": "baagad-ai",
   "keywords": [
-    "ai",
+    "agent-skill",
+    "claude-code",
     "content-repurposing",
-    "content-atomization",
-    "writing-style",
-    "twitter-thread",
-    "linkedin-post",
+    "social-media",
     "newsletter",
-    "instagram-carousel",
-    "youtube-shorts",
-    "tiktok",
-    "podcast",
-    "content-transformation",
-    "humanizer",
-    "ai-pattern-removal",
-    "solopreneur",
-    "creator",
-    "ghostwriter",
-    "claude-skill",
-    "prompt-injection-defense",
-    "ai-security",
-    "secure-ai"
+    "writing-style",
+    "human-in-the-loop",
+    "prompt-injection-defense"
   ],
-  "homepage": "https://github.com/baagad-ai/content-wand/releases",
+  "homepage": "https://github.com/baagad-ai/content-wand",
   "repository": {
     "type": "git",
     "url": "https://github.com/baagad-ai/content-wand.git"
@@ -36,11 +23,16 @@
   "bugs": {
     "url": "https://github.com/baagad-ai/content-wand/issues"
   },
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests",
+    "evals": "python3 evals/run_evals.py",
+    "package": "python3 scripts/package.py",
+    "check": "python3 scripts/check_release.py"
+  },
   "skills": {
     "content-wand": {
-      "name": "content-wand",
-      "description": "Turn any content into platform-native formats or transform between content types. Atomize (1 piece → 9 platforms) or repurpose (type A → type B). Writing Style matching learned once, applied automatically everywhere. Humanizer removes AI writing patterns from every output. Works with text, URLs, transcripts, notes, or a topic idea.",
-      "version": "1.1.0"
+      "path": "skills/content-wand",
+      "version": "2.0.0"
     }
   }
 }

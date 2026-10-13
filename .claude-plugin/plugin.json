@@ -1,0 +1,10 @@
+{
+  "name": "content-wand",
+  "version": "2.0.0",
+  "description": "Turn one source into review-ready posts, threads, newsletters, carousels and scripts. Limits are checked in code, every claim is traced to the source, and nothing is published without your approval.",
+  "author": { "name": "baagad-ai" },
+  "homepage": "https://github.com/baagad-ai/content-wand",
+  "repository": "https://github.com/baagad-ai/content-wand",
+  "license": "MIT",
+  "keywords": ["content", "repurposing", "social-media", "newsletter", "writing", "human-in-the-loop"]
+}

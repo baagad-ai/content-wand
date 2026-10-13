@@ -1,6 +1,7 @@
 # AI Writing Patterns Reference
 
-> Loaded exclusively by `humanizer-SKILL.md`. Do not load in other sub-skills.
+> Used by the edit pass in `humanizer.md`. The same patterns are machine-readable in `data/ai-patterns.json`, which `cw.py lint-ai` reads.
+> These are signals of generic writing, not proof of AI authorship. Detector tools are unreliable. Use this list to improve specificity, never to claim text is undetectable.
 > Sources: GPTZero vocabulary research, FSU/Max Planck (arxiv 2412.11385), Wikipedia Signs of AI Writing,
 > Pangram Labs, Colin Gorrie rhetorical analysis, MDPI stylometric research (2025), Washington Post
 > em dash analysis (2025), SCIRP hedging study (2024).

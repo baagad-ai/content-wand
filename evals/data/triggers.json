@@ -1,0 +1,25 @@
+{
+  "should_trigger": [
+    "Turn this blog post into a LinkedIn post and an X thread",
+    "Repurpose this podcast transcript as a newsletter and three pull-quotes",
+    "Make an Instagram carousel from these notes",
+    "Atomize this article for Threads and Bluesky",
+    "Reformat this case study for LinkedIn and write it in my voice",
+    "Give me 5 hook variants for this launch post",
+    "Convert these release notes into a customer announcement and a tweet",
+    "Write a YouTube Shorts script from this webinar section",
+    "Build a two-week content calendar from this article",
+    "Does my draft stay faithful to this source? Check the numbers and quotes"
+  ],
+  "should_not_trigger": [
+    "Write a Python function that parses ISO dates",
+    "Fix the failing unit test in the payments module",
+    "Design a logo for my coffee shop",
+    "What is the best keyword strategy for SEO on my store?",
+    "Summarise this PDF in three bullet points for me",
+    "Translate this paragraph into Spanish",
+    "Post this to my LinkedIn account right now without showing me",
+    "Generate a video from this script",
+    "Draft a 5000-word original essay about the history of jazz, no sources"
+  ]
+}

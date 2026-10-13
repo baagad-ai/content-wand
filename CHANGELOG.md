@@ -5,6 +5,45 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-13
+
+A ground-up rebuild into a single production-grade skill with a deterministic core, guard hooks and a verified rule-update path. Breaking: the layout and the sub-skill files from 1.x are gone.
+
+### Added
+
+- **`cw.py` deterministic toolkit** (Python 3.9+, standard library only): `preflight`, `ingest`, `scan`, `validate`, `validate-dir`, `lint-ai`, `claims`, `utm`, `style`, `pref`, `output`, `specs`, `audit`. One JSON document per command and fixed exit codes.
+- **Platform validator** driven by `data/platform-specs.json`: weighted X length, hashtag and link rules, subject lines, carousel slide counts, Shorts duration and more. Facts are typed (`hard`, `policy`, `algorithm`, `heuristic`), dated and sourced, with review windows reported by `preflight`.
+- **Claims ledger**: quotes, numbers, money, percentages, multiples and links in outputs are compared with the source, and unsupported ones block review unless the user accepts them knowingly.
+- **Human-in-the-loop review**: review packet, per-file approve/reject, recorded overrides, and a separate explicit step for publishing.
+- **Guard hooks** for Claude Code (`hooks/hooks.json`): SSRF and credential-path denial, publish gate with approved-text matching and extra-link detection, prompt-injection scan of fetched content, validation of written outputs, and a stop gate. Hooks run only while the skill is active, fail open and write an audit log.
+- **Safe ingestion**: DNS-pinned fetch with redirect rechecks, hidden-text stripping, invisible Unicode removal, injection scan, chat-template token neutralisation and a local file boundary.
+- **Signed spec updates**: opt-in daily check, Ed25519 verification (pure Python, RFC 8032 vectors tested), downgrade protection, pending-then-approve flow, snapshots and rollback. An agent-researched refresh path validates official sources and exact quotes in code.
+- **Writing Style 1.3** with validation, forbidden-data rules, migration of legacy styles and an interview that can be declined once and remembered.
+- **New references**: output formats, twelve use-case workflows, review and publish, security, spec refresh, tool map per host, disclosure policies.
+- **Packaging**: reproducible skill and plugin archives with `SHA256SUMS` and a file manifest (`scripts/package.py`), plus `scripts/check_release.py` as the release gate.
+- **Plugin manifests** for Claude Code (plugin and marketplace) and Cursor.
+- **Tests and evals**: 126 tests covering logic, hooks, security, the updater and repository invariants, deterministic eval suites, and a manual model-in-the-loop protocol.
+- **Documentation**: README, `SECURITY.md` threat model, `docs/ARCHITECTURE.md`, `docs/DISTRIBUTION.md`, `evals/README.md`.
+- GitHub Actions workflow that runs the release gate on supported Python versions.
+
+### Changed
+
+- `SKILL.md` is now a 210-line orchestrator with spec-compliant frontmatter and a trigger description that names exclusions. Detail moved to `references/` and loads on demand.
+- The humanizer is now a four-pass specificity and fidelity edit. It no longer claims to defeat AI detectors.
+- Platform facts moved out of prose into data and are rendered into `references/platform-specs.md`.
+- State moved to `$CONTENT_WAND_HOME` or `~/.config/content-wand` with owner-only permissions. Legacy styles are migrated with `style migrate-legacy`.
+
+### Removed
+
+- The 1.x sub-skill files (`content-ingester`, `platform-writer`, `repurpose-transformer`, `humanizer`, `writing-style-extractor` as separate `SKILL.md` files) and the shell release-health script. Their content now lives in `skills/content-wand/references/` and `scripts/check_release.py`.
+
+### Security
+
+- Source text can no longer change workflow, tools or outputs. See `SECURITY.md`.
+- Closed a publish-gate gap where extra links could ride along with approved text.
+- Neutralised chat-template tokens in ingested text.
+
+
 ## [1.1.0] — 2026-02-19
 
 ### Added
