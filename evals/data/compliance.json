@@ -1,0 +1,171 @@
+[
+ {
+  "name": "x-single-ok",
+  "platform": "twitter",
+  "text": "We cut build time from 14 minutes to 6 by caching dependencies. Here is the one config change that did it.",
+  "expect": "pass"
+ },
+ {
+  "name": "x-over-limit",
+  "platform": "twitter",
+  "text": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word",
+  "expect": "fail",
+  "ids": [
+   "char-limit"
+  ]
+ },
+ {
+  "name": "x-emoji-weighted",
+  "platform": "twitter",
+  "text": "",
+  "expect": "fail",
+  "ids": [
+   "char-limit"
+  ],
+  "note": "Emoji count 2 each, so 100 chars of text become over 280 weighted",
+  "text_repeat": {
+   "unit": "🚀 x ",
+   "times": 70
+  }
+ },
+ {
+  "name": "x-link-in-body-allowed",
+  "platform": "twitter",
+  "text": "Read the full write-up at https://example.com/post before the next release.\n---\nThe short version: ship smaller changes.\n---\nThat is it.",
+  "expect": "pass"
+ },
+ {
+  "name": "linkedin-markdown",
+  "platform": "linkedin",
+  "text": "We changed **one thing** in onboarding.\n\nActivation rose.",
+  "expect": "fail",
+  "ids": [
+   "markdown"
+  ]
+ },
+ {
+  "name": "linkedin-ok",
+  "platform": "linkedin",
+  "text": "We rebuilt onboarding around one question.\n\nFewer steps. More first-week use.\n\nWhat would you cut?",
+  "expect": "pass"
+ },
+ {
+  "name": "linkedin-placeholder",
+  "platform": "linkedin",
+  "text": "Revenue grew [insert %] this year.\n\nHere is why.",
+  "expect": "fail",
+  "ids": [
+   "placeholder"
+  ]
+ },
+ {
+  "name": "newsletter-ok",
+  "platform": "newsletter",
+  "text": "Subject: Why we deleted our roadmap\nPreheader: A year of planning, replaced by one list\nCTA: Read the full story\n\nWe stopped publishing a roadmap in March.",
+  "expect": "pass"
+ },
+ {
+  "name": "newsletter-no-subject",
+  "platform": "newsletter",
+  "text": "CTA: Read it\n\nBody only.",
+  "expect": "fail",
+  "ids": [
+   "subject-missing"
+  ]
+ },
+ {
+  "name": "newsletter-subject-too-long",
+  "platform": "newsletter",
+  "text": "Subject: This subject line is far, far too long to fit anywhere in a header line reliably\nCTA: Read\n\nBody.",
+  "expect": "fail",
+  "ids": [
+   "subject-too-long"
+  ]
+ },
+ {
+  "name": "newsletter-three-ctas",
+  "platform": "newsletter",
+  "text": "Subject: Three buttons is too many\nCTA: One\nCTA: Two\nCTA: Three\n\nBody.",
+  "expect": "fail",
+  "ids": [
+   "cta-count"
+  ]
+ },
+ {
+  "name": "instagram-one-slide",
+  "platform": "instagram",
+  "text": "Only one slide\nAlt text: x\n---\nCaption: hi",
+  "expect": "fail",
+  "ids": [
+   "slide-count"
+  ]
+ },
+ {
+  "name": "instagram-ok",
+  "platform": "instagram",
+  "text": "Format: 4:5\n---\nStop doing this\nAlt text: Bold headline\n---\nDo this instead\nAlt text: Second slide\n---\nSave this for later\nAlt text: Final slide\n---\nCaption: A short caption that carries the point.",
+  "expect": "pass"
+ },
+ {
+  "name": "shorts-over-platform-max",
+  "platform": "youtube-shorts",
+  "text": "",
+  "expect": "fail",
+  "ids": [
+   "duration"
+  ],
+  "text_repeat": {
+   "unit": "word ",
+   "times": 500,
+   "prefix": "[visual]\n"
+  }
+ },
+ {
+  "name": "shorts-ok",
+  "platform": "youtube-shorts",
+  "text": "[Close on the broken build]\nYour CI is slow because of one line.\n[Cut to the config]\nCache the dependency folder and the build drops to six minutes.\n[Show the timer]\nThat is the whole fix.",
+  "expect": "pass"
+ },
+ {
+  "name": "tiktok-greeting",
+  "platform": "tiktok",
+  "text": "Caption: build speed #ci\n\n[Start]\nHey guys welcome back to my channel today we talk about builds.",
+  "expect": "fail",
+  "ids": [
+   "intro"
+  ]
+ },
+ {
+  "name": "threads-five-links-ok",
+  "platform": "threads",
+  "text": "Reading list https://example.com/1 https://example.com/2 https://example.com/3 https://example.com/4 https://example.com/5",
+  "expect": "pass"
+ },
+ {
+  "name": "bluesky-over",
+  "platform": "bluesky",
+  "text": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word",
+  "expect": "fail",
+  "ids": [
+   "grapheme-limit"
+  ]
+ },
+ {
+  "name": "podcast-scripted-sentences",
+  "platform": "podcast",
+  "text": "- This is a full sentence that goes on and on well past the point where anyone could call it a keyword.\n- Another full sentence that goes on and on well past the point where anyone could call it a keyword.\n- And one more long sentence that is plainly a script and not a talking point at all today.\nCTA: go\nTRANSITION: next",
+  "expect": "fail",
+  "ids": [
+   "full-sentences"
+  ]
+ },
+ {
+  "name": "assistant-artifact",
+  "platform": "linkedin",
+  "text": "As an AI language model, I cannot assist with that.\n\nSorry.",
+  "expect": "fail",
+  "ids": [
+   "assistant-artifact"
+  ]
+ }
+]

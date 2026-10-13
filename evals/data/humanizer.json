@@ -1,0 +1,16 @@
+[
+  {
+    "name": "filler-and-buzzwords",
+    "before": "In today's fast-paced world, it's important to note that our team delves into robust, seamless workflows. Moreover, we leverage a rich tapestry of tools. In conclusion, builds dropped from 14 minutes to 6.",
+    "after": "Our builds dropped from 14 minutes to 6. We got there by caching the dependency folder and splitting the slowest test job in two.",
+    "must_keep": ["14 minutes", "6"],
+    "max_after_hits": 0
+  },
+  {
+    "name": "balanced-hedge",
+    "before": "It is worth noting that onboarding plays a crucial role in retention. Furthermore, it underscores the importance of first-week activation. Additionally, teams should leverage data.",
+    "after": "Onboarding decides retention. In our data, users who finished setup in week one stayed twice as long.",
+    "must_keep": [],
+    "max_after_hits": 0
+  }
+]

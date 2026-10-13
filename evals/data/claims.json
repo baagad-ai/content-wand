@@ -1,0 +1,10 @@
+[
+  {"name": "faithful", "source": "Revenue grew 42% in 2025 to $9.5 million. \"Ship small, ship often\" said Ana Ruiz. Report: https://example.com/report", "output": "Revenue grew 42% to $9.5 million. \"Ship small, ship often.\" https://example.com/report", "expect_ok": true},
+  {"name": "invented-percent", "source": "Revenue grew a lot in 2025.", "output": "Revenue grew 58% in 2025.", "expect_ok": false, "types": ["percentage"]},
+  {"name": "invented-money", "source": "The company raised a seed round.", "output": "The company raised $12M.", "expect_ok": false, "types": ["money"]},
+  {"name": "invented-multiple", "source": "Users increased.", "output": "Users increased 3x.", "expect_ok": false, "types": ["multiple"]},
+  {"name": "altered-quote", "source": "\"We never shipped on Fridays because outages happen on weekends\" said the CTO.", "output": "The CTO said \"We always shipped on Fridays because outages happen on weekends\".", "expect_ok": false, "types": ["quote"]},
+  {"name": "invented-link", "source": "Details are on the company blog.", "output": "Read more at https://evil.example/landing", "expect_ok": false, "types": ["url"]},
+  {"name": "rounding-tolerated", "source": "Conversion was 4.2% last quarter.", "output": "Conversion was 4.2% last quarter.", "expect_ok": true},
+  {"name": "user-supplied-link", "source": "Launch notes.", "output": "Get it at https://shop.example/buy", "allow_url": ["https://shop.example/buy"], "expect_ok": true}
+]
