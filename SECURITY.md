@@ -48,6 +48,10 @@ content-wand reads untrusted text and can write files and, when the user connect
 - Updates contain data (platform facts and their sources), never code.
 - The signing key is held offline by the maintainer. It is never in the repository.
 
+### What leaves your machine
+
+content-wand itself sends nothing anywhere except the fetches and optional feed check described here. Your host agent is different: source text, drafts and Writing Style content are processed by your model provider as with any agent work, and some hosts send the hostname of a fetched URL to the provider for safety checks. Check your host's data policy and settings (for Claude Code, `skipWebFetchPreflight` controls the hostname check). Do not feed content you are not allowed to share with your model provider.
+
 ### Network and telemetry
 
 No telemetry. No licence check. No remote code execution. Network access is limited to URLs the user supplies or asks the agent to research, and the optional signed-feed check.

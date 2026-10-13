@@ -26,3 +26,12 @@ Disclosure rules mostly cover generated media, not text a person reviewed and ap
 - If media is involved (video scripts, images described in a carousel), mention once at hand-off that the platform may require a label when realistic synthetic media is used.
 - If the user asks for "no one will know it is AI", decline that framing. Offer the specificity edit and a clean review instead.
 - If the user wants a disclosure line, offer a plain one the person can edit, such as "Drafted with AI assistance and edited by me." Never invent a person's agreement to a policy.
+
+## EU AI Act Article 50
+
+Transparency duties under Article 50 have applied since 2 August 2026, with the marking duty for already-marketed generative systems deferred to 2 December 2026. Obligations differ for the tool provider and for the person who publishes. The Commission's guidelines were still a draft when this was written, so treat the points below as cautions and check current guidance.
+
+- Published AI-generated text on matters of public interest may need a disclosure unless a person has reviewed it and holds editorial responsibility.
+- The review exemption is expected to require real review and fact-checking. This is why content-wand finishes all edits, including the humanizer pass, before the review packet, and why an edit after approval needs a new approval.
+- Never fabricate testimonials, reviews or first-person experience. The US FTC rule on consumer reviews and testimonials (effective 2024-10-21) applies whether or not AI wrote the text.
+

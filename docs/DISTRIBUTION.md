@@ -66,6 +66,37 @@ Lead with outcomes that are checkable rather than adjectives.
 - Output improves with use because a Writing Style is saved and applied.
 - It does not promise to beat AI detectors and does not claim guaranteed reach. Say so in listings. It is both accurate and a trust signal.
 
+## Channels
+
+Findings from marketplace research dated 2026-10-13. Terms change, so confirm them before listing.
+
+| Channel | Pays creators | Notes |
+|---|---|---|
+| Cursor marketplace | No | Publisher terms require open-source, permissive licences and forbid charging. Reach only. |
+| Anthropic directory, skills.sh, SkillsMP | No | Free indexes. Anthropic scans each version, rejects over-broad hooks and undisclosed network calls, and checks that the description matches behaviour. |
+| Agensi, SkillHQ, AgentPowers, MyClaude | Yes (roughly 70% to 92% creator share, varying) | Review each one's scan rules, payout terms and exclusivity. |
+| Direct (Gumroad, Lemon Squeezy, Polar) | Yes | Full control of price and licence. You handle support and refunds. |
+
+Marketplaces rely on traceability and scanning rather than copy protection. A licence check that phones home would conflict with content-wand's no-telemetry position and with directory rules on undisclosed network calls, so there is none.
+
+## Scans to run before submitting
+
+These tools were not run as part of the 2.0.0 build. Run them and publish the reports.
+
+- A skill security scanner such as Cisco skill-scanner or Snyk Agent Scan.
+- `claude plugin validate --strict` for the plugin layout. It does not catch every frontmatter error, so keep `tests/test_repo.py` in the gate.
+- `skills-ref validate` (the reference validator) against `skills/content-wand/`.
+
+Expect reviewers to look hardest at hooks, shell use and network calls. The README, `SECURITY.md` and `compatibility` frontmatter disclose all three.
+
+## Decisions you must make before selling
+
+1. **What is paid.** The repository is MIT, so anyone may legally copy and resell it. Sell something that is not simply the text: a Pro pack of extra references, templates and evals kept in a separate proprietary repository, signed data feeds, support, or client-ready services. Do not remove the MIT core from the public repository without checking the rights below.
+2. **Rights to relicense.** Confirm that every contributor agreed to the licence change you want. Review `references/ai-patterns.md`, which lists research and a Wikipedia article among its sources. It contains pattern lists and original wording, not copied text, but confirm that with a quick read before a commercial release.
+3. **Distributor terms.** Exclusivity, payout split, refunds, update obligations, liability, and who is merchant of record. The distributor was not identified in this research, so compare their offer against the table above.
+4. **Entity, tax and trademark.** The name "content-wand" and any logo.
+5. **Support promise.** Response times and which hosts you support.
+
 ## Licensing and support
 
 The repository is MIT licensed. If a distributor requires a different commercial licence, decide that before listing and keep the licence field in `SKILL.md`, the manifests and `LICENSE` consistent. Support routes are in `SUPPORT.md` and security reporting is in `SECURITY.md`.
